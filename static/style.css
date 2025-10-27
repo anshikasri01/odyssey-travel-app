@@ -1339,3 +1339,54 @@ figcaption {
 body.modal-open {
     overflow: hidden;
 }
+
+@media (max-width: 768px) {
+    /* Home Section Video (Taki video chhote screen par fit ho jaaye) */
+    .home .video video {
+        height: 100vh;
+        width: 100vw;
+        object-fit: cover;
+    }
+    .navbar .links-container {
+        display: flex;
+        flex-direction: column; /* Links ko vertically stack karein */
+        align-items: center;
+        padding: 10px 0;
+    }
+    .navbar .link-item {
+        margin: 5px 0;
+    }
+    .explore-section, .about-section {
+        padding: 20px; /* Padding kam karein */
+    }
+    .tours-container {
+        /* Default mein jo bhi layout ho, use single column mein badal dein */
+        grid-template-columns: 1fr; /* Har card 100% width lega */
+        gap: 20px;
+    }
+    .about-container {
+        grid-template-columns: 1fr; /* 4 cards ki jagah 1 card per row */
+        gap: 20px;
+    }
+}
+/* 2. Smaller Phone Screens (Max width 480px) */
+@media (max-width: 480px) {
+    /* Title aur Paragraphs ki size kam karein */
+    .home .content h1 {
+        font-size: 2em;
+    }
+    .explore-title, .section-title {
+        font-size: 1.5em;
+    }
+    
+    /* Footer links ko vertical karein */
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+    .footer-section.links ul {
+        padding: 0;
+        list-style: none;
+    }
+}
