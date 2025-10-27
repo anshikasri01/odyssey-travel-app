@@ -15,7 +15,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
 
 # SECRET_KEY ko Environment Variable se load karein
-
 app.secret_key = os.environ.get('SECRET_KEY', 'a_strong_fallback_key_for_local_dev_only')
 
 db = SQLAlchemy(app)
@@ -32,6 +31,8 @@ class Feedback(db.Model):
     def __repr__(self):
         return f"Feedback('{self.rating}', '{self.name}', '{self.date_posted}')"
 
+# NOTE: db.create_all() ko deploy karte waqt comment out/hata diya gaya hai.
+# Agar aapko tables chahiyen, toh pehle app ko live karein, phir isse un-comment karein.
 
 # --- 3. API ENDPOINT FOR TOUR DATA (Home Page) ---
 @app.route('/api/tours', methods=['GET'])
@@ -39,25 +40,16 @@ def get_tours_data():
     """Returns a list of tour destinations for dynamic loading."""
     
     tours_data = [
-        # Change 1: Using url_for() for reliable serving
+        # Static files use ho rahe hain. Apne static folder mein yeh files daalen.
         {"name": "Jaipur", "image_url": url_for('static', filename='jaipur.jpg')}, 
-        
-        # Change 2: Using url_for()
         {"name": "Agra", "image_url": url_for('static', filename='agra.jpg')},
-        
-        # Change 3: Using url_for()
         {"name": "Nepal", "image_url": url_for('static', filename='nepal.jpg')},
-        
-        # Change 4: Using url_for()
         {"name": "Khajuraho", "image_url": url_for('static', filename='khajuraho.jpg')},
-        
-        # Change 5: Using url_for()
         {"name": "Bhubaneswar", "image_url": url_for('static', filename='bhubaneswar.jpg')},
-        
-        # Change 6: Using url_for()
         {"name": "Rishikesh", "image_url": url_for('static', filename='rishikesh.jpg')}
     ]
     return jsonify(tours_data)
+
 # --- 4. API ENDPOINT FOR FEEDBACK SUBMISSION (Login Page) ---
 @app.route('/api/submit_feedback', methods=['POST'])
 def submit_feedback():
@@ -92,52 +84,43 @@ def submit_feedback():
 
     except Exception as e:
         db.session.rollback()
-        # Error ko console mein print karein (Render logs mein dikhega)
         print(f"Database error: {e}") 
         return jsonify({"success": False, "message": "An error occurred while saving feedback."}), 500
 
 
 # --- 5. PAGE ROUTES ---
 
-# Default Route: Root domain se home page par redirect karega
 @app.route('/')
 def index():
     """Redirects the root URL to the home page."""
     return redirect(url_for('home_page')) 
 
-# Main Route: Home Page
 @app.route('/home.html')
 def home_page():
     """Serves the home.html file from the 'templates' folder."""
     return render_template('home.html')
 
-# Sub-Route: Discover Page
 @app.route('/discover.html')
 def discover_page():
     """Serves the discover.html file from the 'templates' folder."""
     return render_template('discover.html') 
 
-# Sub-Route: Places Page
 @app.route('/places.html')
 def places_page():
     """Serves the places.html file from the 'templates' folder."""
     return render_template('places.html') 
 
-# Sub-Route: About Page
 @app.route('/about.html')
 def about_page():
     """Serves the about.html file from the 'templates' folder."""
     return render_template('about.html') 
 
-# Sub-Route: Login/Feedback Page
 @app.route('/login.html')
 def login_page():
     """Serves the login.html file from the 'templates' folder."""
     return render_template('login.html') 
 
 # --- 6. RUN THE APP ---
-# Production mein gunicorn/Procfile se run hoga. Local development ke liye Waitress.
 if __name__ == '__main__':
     from waitress import serve
-    # PORT environment variable use karein, ya 5000 par fallback karein (default)
     serve(app, host='0.0.0.0', port=os.environ.get('PORT', 5000))
