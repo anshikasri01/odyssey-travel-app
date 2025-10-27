@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Your Feedback | Odyssey To...</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head> 
+<body>
+    <header>
+        <nav class="navbar">                    
+            <ul class="links-container">
+                <li class="link-item"><a href="{{ url_for('home_page') }}">Home</a></li>
+                <li class="link-item"><a href="{{ url_for('discover_page') }}">Discover</a></li>
+                
+                <li class="link-item"><a href="{{ url_for('places_page') }}"><img src="{{ url_for('static', filename='location.png') }}" class="logo" alt="Location Icon"></a></li>
+                
+                <li class="link-item"><a href="{{ url_for('about_page') }}">About</a></li>
+                <li class="link-item"><a href="{{ url_for('login_page') }}">Share your feedback</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="video-background">
+        <video autoplay loop muted playsinline poster="{{ url_for('static', filename='v1.mp4') }}">
+            <source src="{{ url_for('static', filename='v1.mp4') }}" type="video/mp4">
+        </video>
+    </div>
+
+    <div class="content-overlay">
+        <div class="feedback-container glass-form">
+            <h1>We Value Your Insight</h1>
+            <p>Your honest feedback drives our innovation and improvement.</p>
+
+            <form id="feedbackForm">
+                <div class="form-group">
+                    <label for="name">Name (Optional)</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your name">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email (Optional)</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email">
+                </div>
+
+                <div class="form-group">
+                    <label for="rating">Experience Rating</label>
+                    <div class="rating-stars">
+                        <input type="radio" id="star5" name="rating" value="5" required><label for="star5">★</label>
+                        <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+                        <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+                        <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+                        <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="comments">Your Key Suggestions</label>
+                    <textarea id="comments" name="comments" rows="4" required placeholder="Tell us what you loved or how we can do better..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">SEND FEEDBACK</button>
+                
+                <p id="message" style="display: none;"></p> 
+            </form>
+        </div>
+    </div>
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-section links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="{{ url_for('home_page') }}">Home</a></li>
+                    <li><a href="{{ url_for('discover_page') }}">Discover</a></li>
+                    <li><a href="{{ url_for('places_page') }}">places</a></li>
+                    <li><a href="{{ url_for('about_page') }}">About</a></li>
+                    <li><a href="{{ url_for('login_page') }}">feedback</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h3>Get in Touch</h3>
+                <p><h2>hey, It's me Anshika🫶-— and I’m so happy you’re here!</h2>
+                <p><i class="fas fa-envelope"></i> anshikasrivastava1105@gmail.com
+            </div>
+
+            <div class="footer-section social">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; <span id="current-year"></span> 2023 Odyssey To... All rights reserved.<a href="#">Privacy Policy</a></p>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('feedbackForm');
+            const messageElement = document.getElementById('message');
+            const submitBtn = document.querySelector('.submit-btn');
+
+            function displayMessage(text, isSuccess) {
+                messageElement.textContent = text;
+                messageElement.className = isSuccess ? 'success-message' : 'error-message';
+                messageElement.style.display = 'block';
+            }
+
+            form.addEventListener('submit', async function(event) {
+                event.preventDefault();
+
+                const formData = new FormData(form);
+                const data = {};
+                for (let [key, value] of formData.entries()) {
+                    data[key] = value;
+                }
+                
+                // Convert rating to integer and ensure it exists
+                if (data.rating) {
+                    data.rating = parseInt(data.rating);
+                } else {
+                    displayMessage('Error: Please select a rating.', false);
+                    return;
+                }
+
+                displayMessage('Sending feedback...', false);
+                submitBtn.disabled = true; 
+
+                try {
+                    // Fetch API endpoint from app.py
+                    const response = await fetch('/api/submit_feedback', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        displayMessage(result.message, true);
+                        form.reset(); 
+                    } else {
+                        displayMessage(`Error: ${result.message}`, false);
+                    }
+
+                } catch (error) {
+                    console.error('Submission failed:', error);
+                    displayMessage('Network Error: Could not reach the server.', false);
+                } finally {
+                    submitBtn.disabled = false; 
+                }
+            });
+            
+            // Current Year in Footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        });
+    </script>
+    
+    <style>
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</body>   
+</html>
