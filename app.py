@@ -14,11 +14,8 @@ database_url = os.environ.get('DATABASE_URL') or 'sqlite:///feedback.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
 
-# 🚨 CRITICAL FIX: SECRET_KEY ko Environment Variable se load karein
-# Agar SECRET_KEY set nahi hai, toh app start nahi honi chahiye (Production best practice).
-# Lekin development ke liye, hum ek dummy value rakh sakte hain.
-# Aapke code mein iski zarurat nahi hai, kyunki aap sessions use nahi kar rahe, 
-# lekin security ke liye isko set karna accha hai.
+# SECRET_KEY ko Environment Variable se load karein
+
 app.secret_key = os.environ.get('SECRET_KEY', 'a_strong_fallback_key_for_local_dev_only')
 
 db = SQLAlchemy(app)
@@ -42,15 +39,25 @@ def get_tours_data():
     """Returns a list of tour destinations for dynamic loading."""
     
     tours_data = [
-        {"name": "Jaipur", "image_url": "https://i.pinimg.com/736x/f2/a7/6d/f2a76d7d1a7540c124de3f05f560e844.jpg"},
-        {"name": "Agra", "image_url": "https://i.pinimg.com/736x/05/7e/c3/057ec30f1aaf14945ac0322502251341.jpg"},
-        {"name": "Nepal", "image_url": "https://i.pinimg.com/1200x/02/1b/ff/021bff44798638c0e0ce78b5aea86c0f.jpg"},
-        {"name": "Khajuraho", "image_url": "https://i.pinimg.com/originals/a0/78/34/a0783472013f9f592a95c93c4c92e92c.jpg"},
-        {"name": "Bhubaneswar", "image_url": "https://i.pinimg.com/736x/89/13/f2/8913f225f20a9d4449c4bfbab5af6472.jpg"},
-        {"name": "Rishikesh", "image_url": "https://i.pinimg.com/736x/cb/47/93/cb4793023e05da0a154955e7b91c6cf4.jpg"}
+        # Change 1: Using url_for() for reliable serving
+        {"name": "Jaipur", "image_url": url_for('static', filename='jaipur.jpg')}, 
+        
+        # Change 2: Using url_for()
+        {"name": "Agra", "image_url": url_for('static', filename='agra.jpg')},
+        
+        # Change 3: Using url_for()
+        {"name": "Nepal", "image_url": url_for('static', filename='nepal.jpg')},
+        
+        # Change 4: Using url_for()
+        {"name": "Khajuraho", "image_url": url_for('static', filename='khajuraho.jpg')},
+        
+        # Change 5: Using url_for()
+        {"name": "Bhubaneswar", "image_url": url_for('static', filename='bhubaneswar.jpg')},
+        
+        # Change 6: Using url_for()
+        {"name": "Rishikesh", "image_url": url_for('static', filename='rishikesh.jpg')}
     ]
     return jsonify(tours_data)
-
 # --- 4. API ENDPOINT FOR FEEDBACK SUBMISSION (Login Page) ---
 @app.route('/api/submit_feedback', methods=['POST'])
 def submit_feedback():
