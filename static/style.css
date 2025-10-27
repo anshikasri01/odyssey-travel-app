@@ -13,6 +13,350 @@ body{
     height: 100%;
 }
 
+Theek hai, main aapki app.py, home.html, aur style.css files mein sabhi zaroori updates (Database, Image Loading, Mobile Responsiveness, aur Tours Grid Size fix) karke de rahi hoon.
+
+In files ko apne project mein replace karein aur phir GitHub par push karein.
+
+1. app.py (No Change - Pehle Se Hi Theek Hai)
+
+Aapka Python code pehle se hi theek hai aur url_for ka sahi istemaal kar raha hai. Maine ismein koi change nahi kiya hai.
+Python
+
+from flask import Flask, render_template, jsonify, request, url_for, redirect
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+import os
+from flask_cors import CORS
+
+# --- 1. APP AUR DATABASE CONFIGURATION ---
+app = Flask(__name__)
+CORS(app) 
+
+database_url = os.environ.get('DATABASE_URL') or 'sqlite:///feedback.db'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
+app.secret_key = os.environ.get('SECRET_KEY', 'a_strong_fallback_key_for_local_dev_only')
+
+db = SQLAlchemy(app)
+
+# --- 2. DATABASE MODEL ---
+class Feedback(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=True)
+    email = db.Column(db.String(120), nullable=True)
+    rating = db.Column(db.Integer, nullable=False)
+    comments = db.Column(db.Text, nullable=False)
+    date_posted = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f"Feedback('{self.rating}', '{self.name}', '{self.date_posted}')"
+
+# --- 3. API ENDPOINT FOR TOUR DATA (Home Page) ---
+@app.route('/api/tours', methods=['GET'])
+def get_tours_data():
+    """Returns a list of tour destinations for dynamic loading."""
+    
+    tours_data = [
+        # Ensure these files are in your 'static' folder
+        {"name": "Jaipur", "image_url": url_for('static', filename='jaipur.jpg')}, 
+        {"name": "Agra", "image_url": url_for('static', filename='agra.jpg')},
+        {"name": "Nepal", "image_url": url_for('static', filename='nepal.jpg')},
+        {"name": "Khajuraho", "image_url": url_for('static', filename='khajuraho.jpg')},
+        {"name": "Bhubaneswar", "image_url": url_for('static', filename='bhubaneswar.jpg')},
+        {"name": "Rishikesh", "image_url": url_for('static', filename='rishikesh.jpg')}
+    ]
+    return jsonify(tours_data)
+
+# --- 4. API ENDPOINT FOR FEEDBACK SUBMISSION ---
+@app.route('/api/submit_feedback', methods=['POST'])
+def submit_feedback():
+    if not request.is_json:
+        return jsonify({"success": False, "message": "Request must be JSON"}), 400
+    data = request.get_json()
+    rating = data.get('rating')
+    comments = data.get('comments')
+    
+    if not rating or not comments or not isinstance(rating, int) or not (1 <= rating <= 5):
+        return jsonify({"success": False, "message": "Rating (1-5) and comments are required."}), 400
+
+    try:
+        feedback = Feedback(
+            name=data.get('name', 'Anonymous'),
+            email=data.get('email'),
+            rating=int(rating),
+            comments=comments
+        )
+        db.session.add(feedback)
+        db.session.commit()
+        return jsonify({
+            "success": True, 
+            "message": "Thank you! Your feedback has been successfully submitted.",
+            "feedback_id": feedback.id
+        }), 201
+    except Exception as e:
+        db.session.rollback()
+        print(f"Database error: {e}") 
+        return jsonify({"success": False, "message": "An error occurred while saving feedback."}), 500
+
+
+# --- 5. PAGE ROUTES ---
+@app.route('/')
+def index():
+    return redirect(url_for('home_page')) 
+
+@app.route('/home.html')
+def home_page():
+    return render_template('home.html')
+
+@app.route('/discover.html')
+def discover_page():
+    return render_template('discover.html') 
+
+@app.route('/places.html')
+def places_page():
+    return render_template('places.html') 
+
+@app.route('/about.html')
+def about_page():
+    return render_template('about.html') 
+
+@app.route('/login.html')
+def login_page():
+    return render_template('login.html') 
+
+# --- 6. RUN THE APP ---
+if __name__ == '__main__':
+    from waitress import serve
+    serve(app, host='0.0.0.0', port=os.environ.get('PORT', 5000))
+
+2. templates/home.html (Menu Button aur JS Fix ke Saath)
+
+Is file mein Menu Toggle Icon add kiya gaya hai, aur usko handle karne ke liye JavaScript logic bhi add kiya gaya hai.
+HTML
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Odyssey</title>
+        
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head> 
+    <body>
+        <header>
+            <nav class="navbar">                    
+                <i class="fa-solid fa-bars menu-toggle" id="menu-toggle"></i> 
+
+                <ul class="links-container" id="links-container">
+                    <li class="link-item"><a href="home.html">Home</a></li>
+                    <li class="link-item"><a href="discover.html">Discover</a></li>
+                    
+                    <li class="link-item"><a href="places.html"><img src="{{ url_for('static', filename='location.png') }}" class="logo" alt="Logo"></a></li>
+                    
+                    <li class="link-item"><a href="about.html">About</a></li>
+                    <li class="link-item"><a href="login.html">Share your feedback</a></li>
+                </ul>
+            </nav>
+        </header>
+
+    <section class="home" id="home">
+        <div class="video" id="video"><video src="{{ url_for('static', filename='v3.mp4') }}" loop muted autoplay width="100%" object-fit="cover" height="100%"></video>
+        </div>
+        <div class="content">
+            <h1>Explore the India with us</h1>
+            <p>Your journey begins here...</p>
+        </div>
+    </section>
+
+<section class="explore-section" id="explore-section">
+    <h1 class="explore-title" data-aos="fade-up"><a href="discover.html" class="why-us">Explore the India</a></h1>
+    <p class="explore-para" data-aos="fade-up">“Sapno ka Safar Shuru Karein – Explore India aur World ke Hidden Gems aur Famous Destinations!” ✨</p>
+
+    <div class="tours-container" id="tours-container">
+        <p style="text-align: center; color: #555;">Loading destinations from Flask...</p>
+    </div>
+</section>
+
+
+<section class="about-section">
+    <h2 class="section-title"><a href="about.html" class="why-us">Why Us?</a></h2>
+    <p class="section-para">Experience the World with Odyssey To....where every Journey is an unforgettable story.</p>
+    <div class="about-container">
+        <div class="about-item">
+            <div class="icon-wrapper"><i class="fa-solid fa-earth-americas card-icon"></i>
+                </div>
+            <h3>Global Reach</h3>
+            <p>We craft adventures across continents, bringing the world closer to you.</p>
+        </div>
+
+        <div class="about-item">
+            <div class="icon-wrapper"><i class="fa-solid fa-coins card-icon"></i>
+                </div>
+            <h3>Hassle-Free Journeys</h3>
+            <p>Travel the world without a worry. We handle all the details, you make the memories.</p>
+        </div>
+
+        <div class="about-item">
+            <div class="icon-wrapper"><i class="fa-solid fa-book-open card-icon"></i>
+                </div>
+            <h3>Deep Cultural Dives</h3>
+            <p>Discover local traditions and genuine experiences, far beyond typical tourist trails.</p>
+        </div>
+
+        <div class="about-item">
+            <div class="icon-wrapper"><i class="fa-solid fa-person-snowboarding card-icon"></i>
+                </div>
+            <h3>Unforgettable Moments</h3>
+            <p>We promise exceptional service and unforgettable moments, tailored just for you.</p>
+        </div>
+    </div>
+</section>
+
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-section links">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="discover.html">Discover</a></li>
+                <li><a href="places.html">places</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="login.html">feedback</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section contact">
+            <h3>Get in Touch</h3>
+            <p><h2>hey, It's me Anshika🫶-— and I’m so happy you’re here!</h2>
+            <p><i class="fas fa-envelope"></i> anshikasrivastava1105@gmail.com
+        </div>
+
+        <div class="footer-section social">
+            <h3>Follow Us</h3>
+            <div class="social-links">
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; <span id="current-year"></span> 2023 Odyssey To... All rights reserved.<a href="#">Privacy Policy</a></p>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        // --- FINAL FUNCTION: Load Tours from Flask API ---
+        function loadTours() {
+            const toursContainer = document.getElementById('tours-container');
+            toursContainer.innerHTML = ''; 
+
+            fetch('/api/tours')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(toursData => {
+                    if (!toursData || toursData.length === 0) {
+                        toursContainer.innerHTML = '<p style="text-align: center; color: #555;">No destinations available yet.</p>';
+                        return;
+                    }
+                    toursData.forEach(tour => {
+                        const tourItem = document.createElement('div');
+                        // .tour-item class use kiya gaya hai
+                        tourItem.className = 'tour-item'; 
+
+                        tourItem.innerHTML = `
+                            <div class="tour-image-wrapper">
+                                <img src="${tour.image_url}" alt="${tour.name}" class="tour-image" onerror="this.onerror=null; this.src='{{ url_for('static', filename='default_image.jpg') }}';">
+                            </div>
+                            <div class="tour-info">
+                                <h3>${tour.name}</h3>
+                                <a href="discover.html" class="explore-btn">Discover More</a>
+                            </div>
+                        `;
+                        toursContainer.appendChild(tourItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading tours from API:', error);
+                    toursContainer.innerHTML = '<p style="color: red; text-align: center;">Failed to load destinations. Check Console/Network tab.</p>';
+                });
+        }
+
+        // --- NEW: Toggle Menu Functionality ---
+        const menuToggle = document.getElementById('menu-toggle');
+        const linksContainer = document.getElementById('links-container');
+
+        if (menuToggle && linksContainer) {
+            menuToggle.addEventListener('click', () => {
+                linksContainer.classList.toggle('active');
+            });
+            // Agar link par click kiya toh menu band ho jaaye (Mobile view mein)
+            linksContainer.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) {
+                        linksContainer.classList.remove('active');
+                    }
+                });
+            });
+        }
+        // --- Other Functionality ---
+        function setCurrentYear() {
+            const currentYearSpan = document.getElementById('current-year');
+            if (currentYearSpan) {
+                currentYearSpan.textContent = new Date().getFullYear();
+            }
+        }
+        
+        // --- Modal Functionality (Keep it as is, or remove if not needed) ---
+        function createAndShowModal() {
+            // ... (Your existing modal code) ...
+        }
+
+        // EXECUTION ORDER
+        loadTours(); 
+        setCurrentYear();
+        // setTimeout(createAndShowModal, 500); // Uncomment this line if you want the modal
+    });
+</script>
+    </body> 
+</html>
+
+3. static/style.css (Tours Size aur Mobile Fixes ke Saath)
+
+Is file mein .tours-container aur Mobile Navbar ke liye sabse important fixes hain.
+CSS
+
+/* --- GLOBAL STYLES --- */
+*{
+    margin:0px;
+    padding:0px;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing:border-box;
+
+}
+
+body{
+    font-family: 'Poppins', sans-serif;
+    background: #161813;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+/* --- NAVIGATION BAR FIX --- */
 .navbar{
     position: absolute;
     top: 0;
@@ -20,18 +364,22 @@ body{
     z-index: 9;
     width: 100vw;
     height: 100px;
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
 }
 .navbar.bg{
     background: #161813;
 }
-
 
 .links-container{
     display: flex;
     align-items: center;
     justify-content: center;
     list-style: none;
+    width: 100%;
+    max-width: 900px;
 }
 .logo{
     height: 50px;
@@ -39,19 +387,30 @@ body{
 }
 
 .link-item{
-    margin: 0 30px;
+    margin: 0 15px;
     transition: .5s;
 }
 
 .link-item a{
     color: #fff;
     text-decoration: none;
-    padding: 20px;
+    padding: 10px 15px;
 }
 
 .link-item:hover{
-    transform: scale(1.2);
+    transform: scale(1.1);
 }
+
+/* Hidden menu button for mobile */
+.menu-toggle {
+    display: none; 
+    font-size: 1.8rem;
+    color: #fff;
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* --- HOME SECTION --- */
 .home{
     width: 100%;
     height: 100vh;
@@ -66,7 +425,12 @@ body{
     position: absolute;
     object-fit: cover;
     width: 100%;
-       
+    height: 100%;
+}
+.home .video video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .content{
@@ -94,7 +458,7 @@ body{
 .explore-section{
     position: relative;
     width: 100%;
-    padding: 25px;
+    padding: 50px 25px;
     color: #fff;
 }
 
@@ -106,13 +470,13 @@ body{
 }
 
 .explore-para{
-    width: 50%;
-    min-width: 300px;
+    width: 80%;
+    max-width: 700px;
     display: block;
     margin: 30px auto;
     text-align: center;
     line-height: 25px;
-    opacity: 0.6;
+    opacity: 0.8;
 }
 
 .tours-container{
@@ -1340,46 +1704,100 @@ body.modal-open {
     overflow: hidden;
 }
 
-@media (max-width: 768px) {
-    /* Home Section Video (Taki video chhote screen par fit ho jaaye) */
-    .home .video video {
-        height: 100vh;
-        width: 100vw;
-        object-fit: cover;
+/* Medium Screens and Tablets (Max width 992px) */
+@media (max-width: 992px) {
+    .content h1 {
+        font-size: 3em;
     }
-    .navbar .links-container {
-        display: flex;
-        flex-direction: column; /* Links ko vertically stack karein */
-        align-items: center;
-        padding: 10px 0;
-    }
-    .navbar .link-item {
-        margin: 5px 0;
-    }
-    .explore-section, .about-section {
-        padding: 20px; /* Padding kam karein */
-    }
+
+    /* Tours Container: 2-column layout on tablets */
     .tours-container {
-        /* Default mein jo bhi layout ho, use single column mein badal dein */
-        grid-template-columns: 1fr; /* Har card 100% width lega */
-        gap: 20px;
-    }
-    .about-container {
-        grid-template-columns: 1fr; /* 4 cards ki jagah 1 card per row */
-        gap: 20px;
-    }
-}
-/* 2. Smaller Phone Screens (Max width 480px) */
-@media (max-width: 480px) {
-    /* Title aur Paragraphs ki size kam karein */
-    .home .content h1 {
-        font-size: 2em;
-    }
-    .explore-title, .section-title {
-        font-size: 1.5em;
+        grid-template-columns: 1fr 1fr; /* 2 columns */
+        grid-auto-rows: 280px; /* Thodi choti height */
     }
     
-    /* Footer links ko vertical karein */
+    /* Grid layout override: Sabhi cards ko normal 1x1 size dein */
+    .tour-item:nth-child(1),
+    .tour-item:nth-child(4) {
+        grid-row: span 1;
+        grid-column: span 1;
+    }
+    
+    /* About Section: 2 columns */
+    .about-container {
+        justify-content: space-around;
+    }
+    .about-item {
+        max-width: 45%; 
+    }
+}
+/* Small Screens and Phones (Max width 768px) */
+@media (max-width: 768px) {
+    
+    /* NAVIGATION BAR FIX */
+    .navbar {
+        height: auto;
+        padding: 10px 20px;
+        align-items: flex-start;
+        justify-content: space-between; /* Space between logo and toggle */
+    }
+    
+    .links-container {
+        display: none; /* By default hide the links */
+        flex-direction: column;
+        background: #161813;
+        position: absolute;
+        top: 60px; 
+        left: 0;
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+        border-top: 1px solid #333;
+    }
+    
+    /* Active class from JS */
+    .links-container.active {
+        display: flex;
+    }
+
+    .link-item {
+        margin: 5px 0;
+        width: 100%;
+    }
+    .link-item a {
+        padding: 10px;
+    }
+
+    /* Menu button ko show karein */
+    .menu-toggle {
+        display: block;
+        align-self: center;
+    }
+
+    /* Tours Container: Single column on phones (MAIN FIX) */
+    .tours-container {
+        grid-template-columns: 1fr; /* Har card 100% width lega */
+        gap: 20px;
+        grid-auto-rows: 250px; /* Small height for mobile */
+    }
+    
+    /* Grid layout override: Sabhi cards ko normal 1x1 size dein */
+    .tour-item:nth-child(1),
+    .tour-item:nth-child(4) {
+        grid-row: span 1;
+        grid-column: span 1;
+    }
+
+    /* About Section: Single column */
+    .about-container {
+        flex-direction: column; 
+        align-items: center;
+    }
+    .about-item {
+        max-width: 90%; 
+    }
+    
+    /* Footer Fix */
     .footer-container {
         flex-direction: column;
         text-align: center;
@@ -1388,5 +1806,11 @@ body.modal-open {
     .footer-section.links ul {
         padding: 0;
         list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .footer-section.links li {
+        margin: 5px 10px;
     }
 }
