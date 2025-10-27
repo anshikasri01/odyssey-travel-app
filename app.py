@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request, url_for, redirect
+from flask import Flask, render_template, jsonify, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
@@ -6,15 +6,9 @@ import os
 # --- 1. APP AND DATABASE CONFIGURATION ---
 app = Flask(__name__)
 
-# Deployment ke liye DATABASE_URL (Render se) use karein.
-# Agar DATABASE_URL set nahi hai (jaise ki local development mein), toh local SQLite use karein.
-# Render par, aapko Environment Variables mein DATABASE_URL set karna hoga.
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') or 'sqlite:///feedback.db'
+# SQLite database configure
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///feedback.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
-
-# SECRET_KEY ko Environment Variable se load karein (Deployment ke liye zaroori)
-app.secret_key = os.environ.get('SECRET_KEY') or 'default_insecure_key_change_me_in_prod'
-
 db = SQLAlchemy(app)
 
 # --- 2. DATABASE MODEL ---
@@ -29,7 +23,6 @@ class Feedback(db.Model):
     def __repr__(self):
         return f"Feedback('{self.rating}', '{self.name}', '{self.date_posted}')"
 
-# Database tables create karein (agar nahi hain toh)
 with app.app_context():
     db.create_all()
 
@@ -42,7 +35,10 @@ def get_tours_data():
         {"name": "Jaipur", "image_url": "https://i.pinimg.com/736x/f2/a7/6d/f2a76d7d1a7540c124de3f05f560e844.jpg"},
         {"name": "Agra", "image_url": "https://i.pinimg.com/736x/05/7e/c3/057ec30f1aaf14945ac0322502251341.jpg"},
         {"name": "Nepal", "image_url": "https://i.pinimg.com/1200x/02/1b/ff/021bff44798638c0e0ce78b5aea86c0f.jpg"},
+        
+       
         {"name": "Khajuraho", "image_url": url_for('static', filename='khajuraho.jpg')}, 
+        
         {"name": "Bhubaneswar", "image_url": "https://i.pinimg.com/736x/89/13/f2/8913f225f20a9d4449c4bfbab5af6472.jpg"},
         {"name": "Rishikesh", "image_url": "https://i.pinimg.com/736x/cb/47/93/cb4793023e05da0a154955e7b91c6cf4.jpg"}
     ]
@@ -62,7 +58,7 @@ def submit_feedback():
     
     
     if not rating or not comments:
-          return jsonify({"success": False, "message": "Rating and comments are required."}), 400
+         return jsonify({"success": False, "message": "Rating and comments are required."}), 400
 
     try:
         
@@ -83,46 +79,38 @@ def submit_feedback():
 
     except Exception as e:
         db.session.rollback()
-        # Production mein 'print' ki jagah logging use karein
         print(f"Database error: {e}") 
         return jsonify({"success": False, "message": "An error occurred while saving feedback."}), 500
 
 
 # --- 5. PAGE ROUTES ---
 
-# **NEW ROOT ROUTE:** / (Zaroori fix)
-@app.route('/')
-def index():
-    """Redirects the root URL (/) to the home page."""
-    # url_for('home_page') home_page function ke route ko dhundega, jo '/home.html' hai.
-    return redirect(url_for('home_page')) 
-
 # Main Route: Home Page
-@app.route('/home.html', methods=['GET'])
+@app.route('/home.html')
 def home_page():
     """Serves the home.html file from the 'templates' folder."""
     return render_template('home.html')
 
 # Sub-Route: Discover Page
-@app.route('/discover.html', methods=['GET'])
+@app.route('/discover.html')
 def discover_page():
     """Serves the discover.html file from the 'templates' folder."""
     return render_template('discover.html') 
 
 # Sub-Route: Places Page
-@app.route('/places.html', methods=['GET'])
+@app.route('/places.html')
 def places_page():
     """Serves the places.html file from the 'templates' folder."""
     return render_template('places.html') 
 
 # Sub-Route: About Page
-@app.route('/about.html', methods=['GET'])
+@app.route('/about.html')
 def about_page():
     """Serves the about.html file from the 'templates' folder."""
     return render_template('about.html') 
 
 # Sub-Route: Login/Feedback Page
-@app.route('/login.html', methods=['GET'])
+@app.route('/login.html')
 def login_page():
     """Serves the login.html file from the 'templates' folder."""
     return render_template('login.html') 
@@ -131,5 +119,4 @@ def login_page():
 if __name__ == '__main__':
     from waitress import serve
     
-    # Local development server (Waitress for Windows compatibility)
     serve(app, host='0.0.0.0', port=5000)
