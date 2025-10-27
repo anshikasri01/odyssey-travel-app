@@ -48,7 +48,7 @@
     <h2 class="section-title"><a href="about.html" class="why-us">Why Us?</a></h2>
     <p class="section-para">Experience the World with Odyssey To....where every Journey is an unforgettable story.</p>
     <div class="about-container">
-            <div class="about-item">
+        <div class="about-item">
             <div class="icon-wrapper"><i class="fa-solid fa-earth-americas card-icon"></i>
                 </div>
             <h3>Global Reach</h3>
@@ -82,73 +82,100 @@
 </section>
 
 <footer class="site-footer">
-        <div class="footer-container">
-            <div class="footer-section links">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="home.html">Home</a></li>
-                    <li><a href="discover.html">Discover</a></li>
-                    <li><a href="places.html">places</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="login.html">feedback</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section contact">
-                <h3>Get in Touch</h3>
-                <p><h2>hey, It's me Anshika🫶-— and I’m so happy you’re here!</h2>
-                <p><i class="fas fa-envelope"></i> anshikasrivastava1105@gmail.com
-            </div>
-
-            <div class="footer-section social">
-                <h3>Follow Us</h3>
-                <div class="social-links">
-                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
+    <div class="footer-container">
+        <div class="footer-section links">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="discover.html">Discover</a></li>
+                <li><a href="places.html">places</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="login.html">feedback</a></li>
+            </ul>
         </div>
 
-        <div class="footer-bottom">
-            <p>&copy; <span id="current-year"></span> 2023 Odyssey To... All rights reserved.<a href="#">Privacy Policy</a></p>
+        <div class="footer-section contact">
+            <h3>Get in Touch</h3>
+            <p><h2>hey, It's me Anshika🫶-— and I’m so happy you’re here!</h2>
+            <p><i class="fas fa-envelope"></i> anshikasrivastava1105@gmail.com
         </div>
-    </footer>
+
+        <div class="footer-section social">
+            <h3>Follow Us</h3>
+            <div class="social-links">
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; <span id="current-year"></span> 2023 Odyssey To... All rights reserved.<a href="#">Privacy Policy</a></p>
+    </div>
+</footer>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         
-        // --- FUNCTION: Load Tours from Flask API ---
+        // --- FINAL FUNCTION: Load Tours from Flask API ---
         function loadTours() {
-            // ... (Aapka original loadTours function wahi rahega) ...
-            
             const toursContainer = document.getElementById('tours-container');
             
+            // Clear loading message
+            toursContainer.innerHTML = ''; 
+
             fetch('/api/tours')
-                // ... (rest of the fetch logic) ...
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(toursData => {
+                    if (!toursData || toursData.length === 0) {
+                        toursContainer.innerHTML = '<p style="text-align: center; color: #555;">No destinations available yet.</p>';
+                        return;
+                    }
+
+                    // Create HTML elements for each tour
+                    toursData.forEach(tour => {
+                        const tourItem = document.createElement('div');
+                        tourItem.className = 'tour-item'; 
+
+                        // Use the image_url received from Flask API
+                        tourItem.innerHTML = `
+                            <div class="tour-image-wrapper">
+                                <img src="${tour.image_url}" alt="${tour.name}" class="tour-image" onerror="this.onerror=null; this.src='{{ url_for('static', filename='default_image.jpg') }}';">
+                            </div>
+                            <div class="tour-info">
+                                <h3>${tour.name}</h3>
+                                <a href="discover.html" class="explore-btn">Discover More</a>
+                            </div>
+                        `;
+                        toursContainer.appendChild(tourItem);
+                    });
+                })
                 .catch(error => {
                     console.error('Error loading tours from API:', error);
-                    toursContainer.innerHTML = '<p style="color: red; text-align: center;">Failed to load destinations. Check Flask server logs.</p>';
+                    // Display error message on the page
+                    toursContainer.innerHTML = '<p style="color: red; text-align: center;">Failed to load destinations. Check Console/Network tab.</p>';
                 });
         }
 
         // --- UPDATED FUNCTION: Create and Show Modal ---
         function createAndShowModal() {
-            // Check if the modal already exists to prevent duplication
             if (document.getElementById('welcome-modal-overlay')) {
                 return;
             }
 
-            // 1. Create Overlay
             const overlay = document.createElement('div');
-            overlay.id = 'welcome-modal-overlay'; // For CSS targeting
+            overlay.id = 'welcome-modal-overlay'; 
             
-            // 2. Create Modal Content (The actual pop-up box)
             const modal = document.createElement('div');
             modal.className = 'welcome-modal-content';
             
-            // Modal Inner HTML (Aap apne hisaab se customize kar sakte hain)
             modal.innerHTML = `
                 <div class="modal-header">
                     <h2>👋 Welcome to Odyssey!</h2>
@@ -160,31 +187,23 @@
                 </div>
             `;
             
-            // 3. Append to Body
             document.body.appendChild(overlay);
             document.body.appendChild(modal);
 
-            // 4. Set up Close Logic
             const closeModal = () => {
                 document.body.removeChild(modal);
                 document.body.removeChild(overlay);
             };
 
-            // Close button click listener
             document.getElementById('modal-close-btn').addEventListener('click', closeModal);
-            // Explore button click listener (Can navigate to discover page)
             document.getElementById('modal-explore-btn').addEventListener('click', closeModal); 
-            // Close when clicking outside modal (on overlay)
             overlay.addEventListener('click', closeModal);
-            
-            // Optional: Prevent clicking inside modal from closing it
             modal.addEventListener('click', (e) => e.stopPropagation());
             
-            // Add a class to make it visible (CSS transition ke liye)
             setTimeout(() => {
                  modal.classList.add('is-visible');
                  overlay.classList.add('is-visible');
-            }, 50); // Small delay to ensure smooth transition (if any)
+            }, 50); 
         }
 
         // --- Other Functionality ---
@@ -198,7 +217,6 @@
         // EXECUTION ORDER
         loadTours(); 
         setCurrentYear();
-        // Modal ko page load hone ke 500ms baad dikhayenge
         setTimeout(createAndShowModal, 500); 
     });
 </script>
