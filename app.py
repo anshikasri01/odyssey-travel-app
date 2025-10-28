@@ -1,132 +1,127 @@
-from flask import Flask, render_template, jsonify, request, url_for, redirect
+from flask import Flask, render_template, jsonify, request, url_for, redirect # <-- FIX 1: ADDED 'redirect'
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
-from flask_cors import CORS
 
 # --- 1. APP AND DATABASE CONFIGURATION ---
 app = Flask(__name__)
-CORS(app) 
 
-# Configuration for Database (PostgreSQL/SQLite)
-database_url = os.environ.get('DATABASE_URL') or 'sqlite:///feedback.db'
-
-# SQLAlchemy compatibility fix for PostgreSQL URL
-if database_url.startswith('postgres://'):
-    database_url = database_url.replace('postgres://', 'postgresql://', 1)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+# SQLite database configure
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///feedback.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
-app.secret_key = os.environ.get('SECRET_KEY', 'a_strong_fallback_key_for_local_dev_only')
-
 db = SQLAlchemy(app)
 
 # --- 2. DATABASE MODEL ---
-# The email column is nullable=True to allow submission without an email.
 class Feedback(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=True)
     email = db.Column(db.String(120), nullable=True)
-    rating = db.Column(db.Integer, nullable=False)
+    rating = db.Column(db.Integer, nullable=False) # 1 to 5
     comments = db.Column(db.Text, nullable=False)
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
         return f"Feedback('{self.rating}', '{self.name}', '{self.date_posted}')"
 
+with app.app_context():
+    db.create_all()
+
 # --- 3. API ENDPOINT FOR TOUR DATA (Home Page) ---
 @app.route('/api/tours', methods=['GET'])
 def get_tours_data():
     """Returns a list of tour destinations for dynamic loading."""
     
-    # NOTE: In a real Flask app, url_for is used to generate the correct paths.
-    # We use placeholders here for clarity.
     tours_data = [
-        {"name": "Jaipur", "image_url": url_for('static', filename='jaipur.jpg')}, 
-        {"name": "Agra", "image_url": url_for('static', filename='agra.jpg')},
-        {"name": "Nepal", "image_url": url_for('static', filename='nepal.jpg')},
-        {"name": "Khajuraho", "image_url": url_for('static', filename='khajuraho.jpg')},
-        {"name": "Bhubaneswar", "image_url": url_for('static', filename='bhubaneswar.jpg')},
-        {"name": "Rishikesh", "image_url": url_for('static', filename='rishikesh.jpg')}
+        {"name": "Jaipur", "image_url": "https://i.pinimg.com/736x/f2/a7/6d/f2a76d7d1a7540c124de3f05f560e844.jpg"},
+        {"name": "Agra", "image_url": "https://i.pinimg.com/736x/05/7e/c3/057ec30f1aaf14945ac0322502251341.jpg"},
+        {"name": "Nepal", "image_url": "https://i.pinimg.com/1200x/02/1b/ff/021bff44798638c0e0ce78b5aea86c0f.jpg"},
+        
+        {"name": "Khajuraho", "image_url": "https://i.pinimg.com/736x/c4/6c/a6/c46ca68a556944b031e0eda242c96bd7.jpg"}, 
+        
+        {"name": "Bhubaneswar", "image_url": "https://i.pinimg.com/736x/89/13/f2/8913f225f20a9d4449c4bfbab5af6472.jpg"},
+        {"name": "Rishikesh", "image_url": "https://i.pinimg.com/736x/cb/47/93/cb4793023e05da0a154955e7b91c6cf4.jpg"}
     ]
     return jsonify(tours_data)
 
-# --- 4. API ENDPOINT FOR FEEDBACK SUBMISSION (FIXED FOR NULL EMAIL HANDLING) ---
+# --- 4. API ENDPOINT FOR FEEDBACK SUBMISSION (Login Page) ---
 @app.route('/api/submit_feedback', methods=['POST'])
 def submit_feedback():
+    """Receives feedback data and saves it to the database."""
     if not request.is_json:
         return jsonify({"success": False, "message": "Request must be JSON"}), 400
+
     data = request.get_json()
+    
     rating = data.get('rating')
     comments = data.get('comments')
     
-    # 🚨 FIX: Sanitize the email field for database NULL acceptance 🚨
-    submitted_email = data.get('email')
-    # If email is missing or an empty string, set it to None (which is NULL in DB)
-    if not submitted_email or submitted_email.strip() == "":
-        submitted_email = None
-    else:
-        submitted_email = submitted_email.strip() # Clean up whitespace
-
     
-    if not rating or not comments or not isinstance(rating, int) or not (1 <= rating <= 5):
-        return jsonify({"success": False, "message": "Rating (1-5) and comments are required."}), 400
+    if not rating or not comments:
+          return jsonify({"success": False, "message": "Rating and comments are required."}), 400
 
     try:
+        
         feedback = Feedback(
             name=data.get('name', 'Anonymous'),
-            email=submitted_email, # Use the sanitized variable
+            email=data.get('email'),
             rating=int(rating),
             comments=comments
         )
         db.session.add(feedback)
         db.session.commit()
+
         return jsonify({
             "success": True, 
             "message": "Thank you! Your feedback has been successfully submitted.",
             "feedback_id": feedback.id
         }), 201
+
     except Exception as e:
         db.session.rollback()
-        # Log the detailed error for debugging on the server side
-        print(f"Database error during feedback submission: {e}") 
-        return jsonify({"success": False, "message": "An internal error occurred while saving feedback. Please try again."}), 500
+        print(f"Database error: {e}") 
+        return jsonify({"success": False, "message": "An error occurred while saving feedback."}), 500
 
 
 # --- 5. PAGE ROUTES ---
+
 @app.route('/')
 def index():
+    # FIX 2: Removed the comment line and indentation error
     return redirect(url_for('home_page')) 
-
-# All routes now render their respective HTML templates
+    
+# Main Route: Home Page
 @app.route('/home.html')
 def home_page():
+    """Serves the home.html file from the 'templates' folder."""
     return render_template('home.html')
 
+# Sub-Route: Discover Page
 @app.route('/discover.html')
 def discover_page():
+    """Serves the discover.html file from the 'templates' folder."""
     return render_template('discover.html') 
 
+# Sub-Route: Places Page
 @app.route('/places.html')
 def places_page():
+    """Serves the places.html file from the 'templates' folder."""
     return render_template('places.html') 
 
+# Sub-Route: About Page
 @app.route('/about.html')
 def about_page():
+    """Serves the about.html file from the 'templates' folder."""
     return render_template('about.html') 
 
+# Sub-Route: Login/Feedback Page
 @app.route('/login.html')
 def login_page():
+    """Serves the login.html file from the 'templates' folder."""
     return render_template('login.html') 
 
 # --- 6. RUN THE APP ---
-if __name__ == '__main__':
-    # Initialize the database within the application context if running locally
-    with app.app_context():
-        # This will create tables if they don't exist
-        db.create_all() 
-        print("Database checked/created successfully.")
 
+if __name__ == '__main__':
     from waitress import serve
-    # Use 0.0.0.0 for serving in environments like Render
-    serve(app, host='0.0.0.0', port=os.environ.get('PORT', 5000))
+    
+    serve(app, host='0.0.0.0', port=5000)
