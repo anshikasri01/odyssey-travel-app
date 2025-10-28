@@ -4,23 +4,26 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Odyssey</title>
+        <title>Odyssey | Explore India</title>
         
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <!-- Linking to the external style sheet -->
+        <link rel="stylesheet" href="style.css">
         
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <!-- Font Awesome for icons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head> 
     <body>
         <header>
             <nav class="navbar">                    
+                <!-- Menu Toggle Icon (Visible on Mobile) -->
                 <i class="fa-solid fa-bars menu-toggle" id="menu-toggle"></i> 
 
                 <ul class="links-container" id="links-container">
+                    <!-- Nav links -->
                     <li class="link-item"><a href="home.html">Home</a></li>
                     <li class="link-item"><a href="discover.html">Discover</a></li>
-                    
-                    <li class="link-item"><a href="places.html"><img src="{{ url_for('static', filename='location.png') }}" class="logo" alt="Logo"></a></li>
+                    <!-- Logo/Location Icon Placeholder -->
+                    <li class="link-item"><a href="places.html"><img src="location.png" class="logo" alt="Location Icon"></a></li>
                     
                     <li class="link-item"><a href="about.html">About</a></li>
                     <li class="link-item"><a href="login.html">Share your feedback</a></li>
@@ -29,7 +32,10 @@
         </header>
 
     <section class="home" id="home">
-        <div class="video" id="video"><video src="{{ url_for('static', filename='v3.mp4') }}" loop muted autoplay width="100%" object-fit="cover" height="100%"></video>
+        <!-- Video path replaced with static relative path for display purposes -->
+        <div class="video-container" id="video">
+             <!-- NOTE: The video path needs to be correctly handled by Flask's static folder -->
+            <video src="v3.mp4" loop muted autoplay></video> 
         </div>
         <div class="content">
             <h1>Explore the India with us</h1>
@@ -37,64 +43,20 @@
         </div>
     </section>
 
+<!-- EXPLORE SECTION - Dynamic Loading -->
 <section class="explore-section" id="explore-section">
-    <h1 class="explore-title" data-aos="fade-up"><a href="discover.html" class="why-us">Explore the India</a></h1>
-    <p class="explore-para" data-aos="fade-up">“Sapno ka Safar Shuru Karein – Explore India aur World ke Hidden Gems aur Famous Destinations!” ✨</p>
+    <h1 class="explore-title"><a href="discover.html" class="why-us">Explore the India</a></h1>
+    <p class="explore-para">“Sapno ka Safar Shuru Karein – Explore India aur World ke Hidden Gems aur Famous Destinations!” ✨</p>
 
+    <!-- Tours will be loaded dynamically here by JavaScript -->
     <div class="tours-container" id="tours-container">
-        <p style="text-align: center; color: #555;">Loading destinations from Flask...</p>
-     <div class="tour-card" data-aos="fade-up">
-            <img src="jaipur.jpg" class="tour-img" alt="tour-image">
-            <div class="tour-body">
-                <h3 class="tour-name">Jaipur</h3>
-                
-            </div>
-        </div>
-
-        <div class="tour-card" data-aos="fade-up">
-            <img src="agra.jpg" class="tour-img" alt="tour-image">
-            <div class="tour-body">
-                <h3 class="tour-name">Agra</h3>
-                
-            </div>
-        </div>
-
-        <div class="tour-card" data-aos="fade-up">
-            <img src="nepal.jpg" class="tour-img" alt="tour-image">
-            <div class="tour-body">
-                <h3 class="tour-name">Nepal</h3>
-            
-            </div>
-        </div>
-
-        <div class="tour-card" data-aos="fade-up">
-            <img src="khajuraho.jpg" class="tour-img" alt="tour-image">
-            <div class="tour-body">
-                <h3 class="tour-name">Khajuraho</h3>
-                
-            </div>
-        </div>
-
-        <div class="tour-card" data-aos="fade-up">
-            <img src="bhubaneshwar.jpg" class="tour-img" alt="tour-image">
-            <div class="tour-body">
-                <h3 class="tour-name">Bhubaneshwar</h3>
-            
-            </div>
-        </div>
-
-        <div class="tour-card" data-aos="fade-up">
-            <img src="rishikesh.jpg" class="tour-img" alt="tour-image">
-            <div class="tour-body">
-                <h3 class="tour-name">Rishikesh</h3>
-            
-            </div>
-        </div>
+        <!-- Static Placeholder - Removed to avoid duplication with JS load -->
+        <p style="text-align: center; color: #555;">Loading destinations...</p>
     </div>
-    
 </section>
 
 
+<!-- WHY US SECTION -->
 <section class="about-section">
     <h2 class="section-title"><a href="about.html" class="why-us">Why Us?</a></h2>
     <p class="section-para">Experience the World with Odyssey To....where every Journey is an unforgettable story.</p>
@@ -118,7 +80,7 @@
                 </div>
             <h3>Deep Cultural Dives</h3>
             <p>Discover local traditions and genuine experiences, far beyond typical tourist trails.</p>
-        </div>
+        }
 
         <div class="about-item">
             <div class="icon-wrapper"><i class="fa-solid fa-person-snowboarding card-icon"></i>
@@ -129,6 +91,7 @@
     </div>
 </section>
 
+<!-- FOOTER -->
 <footer class="site-footer">
     <div class="footer-container">
         <div class="footer-section links">
@@ -136,9 +99,9 @@
             <ul>
                 <li><a href="home.html">Home</a></li>
                 <li><a href="discover.html">Discover</a></li>
-                <li><a href="places.html">places</a></li>
+                <li><a href="places.html">Places</a></li>
                 <li><a href="about.html">About</a></li>
-                <li><a href="login.html">feedback</a></li>
+                <li><a href="login.html">Feedback</a></li>
             </ul>
         </div>
 
@@ -160,18 +123,25 @@
     </div>
 
     <div class="footer-bottom">
-        <p>&copy; <span id="current-year"></span>  Odyssey To... All rights reserved.<a href="#">Privacy Policy</a></p>
+        <p>&copy; <span id="current-year"></span>  Odyssey To... All rights reserved.<a href="#">Privacy Policy</a></p>
     </div>
 </footer>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         
-        // --- FINAL FUNCTION: Load Tours from Flask API ---
+        // Helper function for dynamic image fallback
+        function getStaticUrl(filename) {
+            // In a live Flask environment, this would be {{ url_for('static', filename=filename) }}
+            return filename; 
+        }
+
+        // --- Load Tours from Flask API ---
         function loadTours() {
             const toursContainer = document.getElementById('tours-container');
-            toursContainer.innerHTML = ''; 
+            toursContainer.innerHTML = '<p style="text-align: center; color: #555;">Fetching amazing destinations...</p>'; 
 
+            // Fetches data from the Flask backend
             fetch('/api/tours')
                 .then(response => {
                     if (!response.ok) {
@@ -180,21 +150,24 @@
                     return response.json();
                 })
                 .then(toursData => {
+                    toursContainer.innerHTML = ''; // Clear loading message
                     if (!toursData || toursData.length === 0) {
                         toursContainer.innerHTML = '<p style="text-align: center; color: #555;">No destinations available yet.</p>';
                         return;
                     }
+                    
                     toursData.forEach(tour => {
                         const tourItem = document.createElement('div');
-                        // .tour-item class use kiya gaya hai
-                        tourItem.className = 'tour-item'; 
+                        tourItem.className = 'tour-card'; // Use .tour-card for consistency with CSS
+                        
+                        // Fallback image logic using onerror
+                        const fallbackImagePath = getStaticUrl('default_image.jpg'); 
 
                         tourItem.innerHTML = `
-                            <div class="tour-image-wrapper">
-                                <img src="${tour.image_url}" alt="${tour.name}" class="tour-image" onerror="this.onerror=null; this.src='{{ url_for('static', filename='default_image.jpg') }}';">
-                            </div>
-                            <div class="tour-info">
-                                <h3>${tour.name}</h3>
+                            <img src="${tour.image_url}" alt="${tour.name} Tour" class="tour-img" 
+                                 onerror="this.onerror=null; this.src='${fallbackImagePath}';">
+                            <div class="tour-body">
+                                <h3 class="tour-name">${tour.name}</h3>
                                 <a href="discover.html" class="explore-btn">Discover More</a>
                             </div>
                         `;
@@ -203,11 +176,11 @@
                 })
                 .catch(error => {
                     console.error('Error loading tours from API:', error);
-                    toursContainer.innerHTML = '<p style="color: red; text-align: center;">Failed to load destinations. Check Console/Network tab.</p>';
+                    toursContainer.innerHTML = '<p style="color: red; text-align: center; padding: 20px;">Failed to load destinations. Check if the backend is running and the API path is correct.</p>';
                 });
         }
 
-        // --- NEW: Toggle Menu Functionality ---
+        // --- Toggle Mobile Menu Functionality ---
         const menuToggle = document.getElementById('menu-toggle');
         const linksContainer = document.getElementById('links-container');
 
@@ -215,16 +188,19 @@
             menuToggle.addEventListener('click', () => {
                 linksContainer.classList.toggle('active');
             });
-            // Agar link par click kiya toh menu band ho jaaye (Mobile view mein)
+            
+            // Close menu when a link is clicked (useful for mobile)
             linksContainer.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', () => {
+                    // Check for mobile width to avoid closing menu on desktop
                     if (window.innerWidth <= 768) {
                         linksContainer.classList.remove('active');
                     }
                 });
             });
         }
-        // --- Other Functionality ---
+
+        // --- Set Current Year in Footer ---
         function setCurrentYear() {
             const currentYearSpan = document.getElementById('current-year');
             if (currentYearSpan) {
@@ -232,15 +208,9 @@
             }
         }
         
-        // --- Modal Functionality (Keep it as is, or remove if not needed) ---
-        function createAndShowModal() {
-            // ... (Your existing modal code) ...
-        }
-
         // EXECUTION ORDER
         loadTours(); 
         setCurrentYear();
-        // setTimeout(createAndShowModal, 500); // Uncomment this line if you want the modal
     });
 </script>
     </body> 
