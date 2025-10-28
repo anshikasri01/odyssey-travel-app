@@ -9,25 +9,22 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head> 
     <body>
         <header>
-            <nav class="navbar">                    
-                <i class="fa-solid fa-bars menu-toggle" id="menu-toggle"></i> 
-
-                <ul class="links-container" id="links-container">
-                    <li class="link-item"><a href="home.html">Home</a></li>
-                    <li class="link-item"><a href="discover.html">Discover</a></li>
-                    
-                    <li class="link-item"><a href="places.html"><img src="{{ url_for('static', filename='location.png') }}" class="logo" alt="Logo"></a></li>
-                    
-                    <li class="link-item"><a href="about.html">About</a></li>
-                    <li class="link-item"><a href="login.html">Share your feedback</a></li>
-                </ul>
-            </nav>
-        </header>
-
+    <nav class="navbar">                    
+        <ul class="links-container">
+            <li class="link-item"><a href="home.html">Home</a></li>
+            <li class="link-item"><a href="discover.html">Discover</a></li>
+            
+            <li class="link-item"><a href="places.html"><img src="{{ url_for('static', filename='location.png') }}" class="logo" alt=""></a></li>
+            
+            <li class="link-item"><a href="about.html">About</a></li>
+            <li class="link-item"><a href="login.html">Share your feedback</a></li>
+        </ul>
+    </nav>
+    </header>
     <section class="home" id="home">
         <div class="video" id="video"><video src="{{ url_for('static', filename='v3.mp4') }}" loop muted autoplay width="100%" object-fit="cover" height="100%"></video>
         </div>
@@ -41,8 +38,54 @@
     <h1 class="explore-title" data-aos="fade-up"><a href="discover.html" class="why-us">Explore the India</a></h1>
     <p class="explore-para" data-aos="fade-up">“Sapno ka Safar Shuru Karein – Explore India aur World ke Hidden Gems aur Famous Destinations!” ✨</p>
 
-    <div class="tours-container" id="tours-container">
-        <p style="text-align: center; color: #555;">Loading destinations from Flask...</p>
+   <div class="tours-container">
+        <div class="tour-card" data-aos="fade-up">
+            <img src="https://i.pinimg.com/736x/f2/a7/6d/f2a76d7d1a7540c124de3f05f560e844.jpg" class="tour-img" alt="tour-image">
+            <div class="tour-body">
+                <h3 class="tour-name">Jaipur</h3>
+                
+            </div>
+        </div>
+
+        <div class="tour-card" data-aos="fade-up">
+            <img src="https://i.pinimg.com/736x/05/7e/c3/057ec30f1aaf14945ac0322502251341.jpg" class="tour-img" alt="tour-image">
+            <div class="tour-body">
+                <h3 class="tour-name">Agra</h3>
+
+            </div>
+        </div>
+
+        <div class="tour-card" data-aos="fade-up">
+            <img src="https://i.pinimg.com/1200x/02/1b/ff/021bff44798638c0e0ce78b5aea86c0f.jpg" class="tour-img" alt="tour-image">
+            <div class="tour-body">
+                <h3 class="tour-name">Nepal</h3>
+            
+            </div>
+        </div>
+
+        <div class="tour-card" data-aos="fade-up">
+            <img src="https://i.pinimg.com/736x/c4/6c/a6/c46ca68a556944b031e0eda242c96bd7.jpg" class="tour-img" alt="tour-image">
+            <div class="tour-body">
+                <h3 class="tour-name">Khajuraho</h3>
+                
+            </div>
+        </div>
+
+        <div class="tour-card" data-aos="fade-up">
+            <img src="https://i.pinimg.com/736x/89/13/f2/8913f225f20a9d4449c4bfbab5af6472.jpg" class="tour-img" alt="tour-image">
+            <div class="tour-body">
+                <h3 class="tour-name">Bhubaneshwar</h3>
+                
+            </div>
+        </div>
+
+        <div class="tour-card" data-aos="fade-up">
+            <img src="https://i.pinimg.com/736x/cb/47/93/cb4793023e05da0a154955e7b91c6cf4.jpg" class="tour-img" alt="tour-image">
+            <div class="tour-body">
+                <h3 class="tour-name"></h3>
+                <p class="tour-action">Rishikesh</p>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -51,7 +94,7 @@
     <h2 class="section-title"><a href="about.html" class="why-us">Why Us?</a></h2>
     <p class="section-para">Experience the World with Odyssey To....where every Journey is an unforgettable story.</p>
     <div class="about-container">
-        <div class="about-item">
+            <div class="about-item">
             <div class="icon-wrapper"><i class="fa-solid fa-earth-americas card-icon"></i>
                 </div>
             <h3>Global Reach</h3>
@@ -81,119 +124,45 @@
     </div>
 </section>
 
+    </div>
+</section>
+
 <footer class="site-footer">
-    <div class="footer-container">
-        <div class="footer-section links">
-            <h3>Quick Links</h3>
-            <ul>
-                <li><a href="home.html">Home</a></li>
-                <li><a href="discover.html">Discover</a></li>
-                <li><a href="places.html">places</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="login.html">feedback</a></li>
-            </ul>
-        </div>
+        <div class="footer-container">
+            <div class="footer-section links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="discover.html">Discover</a></li>
+                    <li><a href="places.html">places</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="login.html">feedback</a></li>
+                </ul>
+            </div>
 
-        <div class="footer-section contact">
-            <h3>Get in Touch</h3>
-            <p><h2>hey, It's me Anshika🫶-— and I’m so happy you’re here!</h2>
-            <p><i class="fas fa-envelope"></i> anshikasrivastava1105@gmail.com
-        </div>
+            <div class="footer-section contact">
+                <h3>Get in Touch</h3>
+                <p><h2>hey, It's me Anshika🫶-— and I’m so happy you’re here!</h2>
+                <p><i class="fas fa-envelope"></i> anshikasrivastava1105@gmail.com
+            </div>
 
-        <div class="footer-section social">
-            <h3>Follow Us</h3>
-            <div class="social-links">
-                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+            <div class="footer-section social">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="footer-bottom">
-        <p>&copy; <span id="current-year"></span> 2023 Odyssey To... All rights reserved.<a href="#">Privacy Policy</a></p>
-    </div>
-</footer>
+        <div class="footer-bottom">
+            <p>&copy; <span id="current-year"></span> 2023 Odyssey To... All rights reserved.<a href="#">Privacy Policy</a></p>
+        </div>
+    </footer>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        
-        // --- FINAL FUNCTION: Load Tours from Flask API ---
-        function loadTours() {
-            const toursContainer = document.getElementById('tours-container');
-            toursContainer.innerHTML = ''; 
 
-            fetch('/api/tours')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(toursData => {
-                    if (!toursData || toursData.length === 0) {
-                        toursContainer.innerHTML = '<p style="text-align: center; color: #555;">No destinations available yet.</p>';
-                        return;
-                    }
-                    toursData.forEach(tour => {
-                        const tourItem = document.createElement('div');
-                        // .tour-item class use kiya gaya hai
-                        tourItem.className = 'tour-item'; 
-
-                        tourItem.innerHTML = `
-                            <div class="tour-image-wrapper">
-                                <img src="${tour.image_url}" alt="${tour.name}" class="tour-image" onerror="this.onerror=null; this.src='{{ url_for('static', filename='default_image.jpg') }}';">
-                            </div>
-                            <div class="tour-info">
-                                <h3>${tour.name}</h3>
-                                <a href="discover.html" class="explore-btn">Discover More</a>
-                            </div>
-                        `;
-                        toursContainer.appendChild(tourItem);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error loading tours from API:', error);
-                    toursContainer.innerHTML = '<p style="color: red; text-align: center;">Failed to load destinations. Check Console/Network tab.</p>';
-                });
-        }
-
-        // --- NEW: Toggle Menu Functionality ---
-        const menuToggle = document.getElementById('menu-toggle');
-        const linksContainer = document.getElementById('links-container');
-
-        if (menuToggle && linksContainer) {
-            menuToggle.addEventListener('click', () => {
-                linksContainer.classList.toggle('active');
-            });
-            // Agar link par click kiya toh menu band ho jaaye (Mobile view mein)
-            linksContainer.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    if (window.innerWidth <= 768) {
-                        linksContainer.classList.remove('active');
-                    }
-                });
-            });
-        }
-        // --- Other Functionality ---
-        function setCurrentYear() {
-            const currentYearSpan = document.getElementById('current-year');
-            if (currentYearSpan) {
-                currentYearSpan.textContent = new Date().getFullYear();
-            }
-        }
-        
-        // --- Modal Functionality (Keep it as is, or remove if not needed) ---
-        function createAndShowModal() {
-            // ... (Your existing modal code) ...
-        }
-
-        // EXECUTION ORDER
-        loadTours(); 
-        setCurrentYear();
-        // setTimeout(createAndShowModal, 500); // Uncomment this line if you want the modal
-    });
 </script>
     </body> 
 </html>
