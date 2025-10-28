@@ -162,7 +162,91 @@
         </div>
     </footer>
 
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        // --- FUNCTION: Load Tours from Flask API ---
+        function loadTours() {
+            // ... (Aapka original loadTours function wahi rahega) ...
+            
+            const toursContainer = document.getElementById('tours-container');
+            
+            fetch('/api/tours')
+                // ... (rest of the fetch logic) ...
+                .catch(error => {
+                    console.error('Error loading tours from API:', error);
+                    toursContainer.innerHTML = '<p style="color: red; text-align: center;">Failed to load destinations. Check Flask server logs.</p>';
+                });
+        }
 
+        // --- UPDATED FUNCTION: Create and Show Modal ---
+        function createAndShowModal() {
+            // Check if the modal already exists to prevent duplication
+            if (document.getElementById('welcome-modal-overlay')) {
+                return;
+            }
+
+            // 1. Create Overlay
+            const overlay = document.createElement('div');
+            overlay.id = 'welcome-modal-overlay'; // For CSS targeting
+            
+            // 2. Create Modal Content (The actual pop-up box)
+            const modal = document.createElement('div');
+            modal.className = 'welcome-modal-content';
+            
+            // Modal Inner HTML (Aap apne hisaab se customize kar sakte hain)
+            modal.innerHTML = `
+                <div class="modal-header">
+                    <h2>👋 Welcome to Odyssey!</h2>
+                    <span class="close-btn" id="modal-close-btn">&times;</span>
+                </div>
+                <p>Thank you for visiting! Start your journey by exploring the destinations below or share your feedback.</p>
+                <div class="modal-actions">
+                    <button id="modal-explore-btn">Start Exploring</button>
+                </div>
+            `;
+            
+            // 3. Append to Body
+            document.body.appendChild(overlay);
+            document.body.appendChild(modal);
+
+            // 4. Set up Close Logic
+            const closeModal = () => {
+                document.body.removeChild(modal);
+                document.body.removeChild(overlay);
+            };
+
+            // Close button click listener
+            document.getElementById('modal-close-btn').addEventListener('click', closeModal);
+            // Explore button click listener (Can navigate to discover page)
+            document.getElementById('modal-explore-btn').addEventListener('click', closeModal); 
+            // Close when clicking outside modal (on overlay)
+            overlay.addEventListener('click', closeModal);
+            
+            // Optional: Prevent clicking inside modal from closing it
+            modal.addEventListener('click', (e) => e.stopPropagation());
+            
+            // Add a class to make it visible (CSS transition ke liye)
+            setTimeout(() => {
+                 modal.classList.add('is-visible');
+                 overlay.classList.add('is-visible');
+            }, 50); // Small delay to ensure smooth transition (if any)
+        }
+
+        // --- Other Functionality ---
+        function setCurrentYear() {
+            const currentYearSpan = document.getElementById('current-year');
+            if (currentYearSpan) {
+                currentYearSpan.textContent = new Date().getFullYear();
+            }
+        }
+
+        // EXECUTION ORDER
+        loadTours(); 
+        setCurrentYear();
+        // Modal ko page load hone ke 500ms baad dikhayenge
+        setTimeout(createAndShowModal, 500); 
+    });
 </script>
     </body> 
 </html>
