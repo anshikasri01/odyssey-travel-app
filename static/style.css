@@ -1328,3 +1328,52 @@ body.modal-open {
     overflow: hidden;
 }
 /***pop-up end**/
+
+.container {
+    width: 90%; /* Mobile par container ko poori screen width den */
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.nav-bar a {
+    display: block; /* Mobile par links ko stack karein */
+    text-align: center;
+    padding: 15px;
+}
+
+.tour-card {
+    /* Mobile par har card poori width le */
+    width: 100%; 
+    margin-bottom: 20px;
+}
+
+
+/* -- 2. Media Query for Tablets/Small Desktops -- */
+
+/* Jab screen ki चौड़ाई 768px ya usse zyada ho */
+@media screen and (min-width: 768px) {
+    .container {
+        width: 80%; /* Badi screen par width kam karein */
+    }
+    
+    .nav-bar a {
+        display: inline; /* Links ko horizontal karein */
+    }
+
+    .tour-card {
+        /* Tablet par 2 columns ka layout */
+        width: 48%; 
+        display: inline-block;
+    }
+}
+
+
+/* -- 3. Media Query for Large Desktops -- */
+
+/* Jab screen ki चौड़ाई 1200px ya usse zyada ho */
+@media screen and (min-width: 1200px) {
+    .tour-card {
+        /* Desktop par 3 columns ka layout */
+        width: 30%; 
+    }
+}
