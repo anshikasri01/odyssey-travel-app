@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Odyssey | Discover</title>
+        
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head> 
+    <body>
+        <header>
+    <nav class="navbar">                    
+        <ul class="links-container">
+            <li class="link-item"><a href="{{ url_for('home_page') }}">Home</a></li>
+            <li class="link-item"><a href="{{ url_for('discover_page') }}">Discover</a></li>
+            
+            <li class="link-item"><a href="places.html"><img src="{{ url_for('static', filename='location.png') }}" class="logo" alt="Location Icon"></a></li>
+            
+            <li class="link-item"><a href="about.html">About</a></li>
+            <li class="link-item"><a href="login.html">Share your feedback</a></li>
+        </ul>
+    </nav>
+    </header>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Discover India </h1>
+            <p>Unforgettable Journeys Through History, Spirituality, and Nature</p>
+            <a href="#cities" class="cta-button">Start Exploring</a>
+        </div>
+    </header>
+
+    <main id="cities" class="city-grid-container">
+        
+        <div class="city-container">
+            <section class="city-card video-bg-card">
+                <video autoplay muted loop playsinline class="card-video">
+                    <source src="{{ url_for('static', filename='jaipur.mp4') }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-overlay"></div>
+                
+                <div class="card-content">
+                    <h2>Jaipur, India 🇮🇳</h2>
+                    <span class="city-tag">The Pink City</span>
+                    <p>Explore the grandeur of Rajasthan's royal heritage. Famous for its intricate **Hawa Mahal** and magnificent forts.</p>
+                    <a href="places.html" target="_blank" class="details-link">
+                        View <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </section>
+        </div>
+        
+        <div class="city-container">
+            <section class="city-card video-bg-card">
+                <video autoplay muted loop playsinline class="card-video">
+                    <source src="{{ url_for('static', filename='agra.mp4') }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-overlay"></div>
+                
+                <div class="card-content">
+                    <h2>Agra, India 🇮🇳</h2>
+                    <span class="city-tag">City of Love</span>
+                    <p>Home to the iconic Taj Mahal, a UNESCO World Heritage site and a timeless symbol of eternal love.</p>
+                    <a href="places.html" target="_blank" class="details-link">
+                        View <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </section>
+        </div>
+
+        <div class="city-container">
+            <section class="city-card video-bg-card">
+                <video autoplay muted loop playsinline class="card-video">
+                    <source src="{{ url_for('static', filename='khaju.mp4') }}" type="video/mp4">
+                    Your browser does support the video tag.
+                </video>
+                <div class="video-overlay"></div>
+                
+                <div class="card-content">
+                    <h2>Khajuraho, India 🇮🇳</h2>
+                    <span class="city-tag">Architectural Marvel</span>
+                    <p>Discover the stunning Chandela temples, famous globally for their complex and artistic stone carvings.</p>
+                    <a href="places.html" target="_blank" class="details-link">
+                        View <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </section>
+        </div>
+        
+        <div class="city-container">
+            <section class="city-card video-bg-card">
+                <video autoplay muted loop playsinline class="card-video">
+                    <source src="{{ url_for('static', filename='rishi.mp4') }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-overlay"></div>
+                
+                <div class="card-content">
+                    <h2>Rishikesh, India 🇮🇳 </h2>
+                    <span class="city-tag">Yoga Capital</span>
+                    <p>A spiritual hub nestled in the Himalayas. Experience Ganga Aarti, river rafting, and meditation.</p>
+                    <a href="places.html" target="_blank" class="details-link">
+                        View  <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </section>
+        </div>
+
+        <div class="city-container">
+            <section class="city-card video-bg-card">
+                <video autoplay muted loop playsinline class="card-video">
+                    <source src="{{ url_for('static', filename='nepal.mp4') }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-overlay"></div>
+                
+                <div class="card-content">
+                    <h2>Nepal 🇳🇵</h2>
+                    <span class="city-tag">Himalayan Kingdom</span>
+                    <p>The land of Mount Everest. Perfect for trekking, cultural exploration in Kathmandu, and breathtaking mountain views.</p>
+                    <a href="places.html" target="_blank" class="details-link">
+                        View  <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </section>
+        </div>
+        
+        <div class="city-container">
+            <section class="city-card video-bg-card">
+                <video autoplay muted loop playsinline class="card-video">
+                    <source src="{{ url_for('static', filename='bhuba.mp4') }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-overlay"></div>
+                
+                <div class="card-content">
+                    <h2>Bhubaneswar, India 🇮🇳</h2>
+                    <span class="city-tag">City of Temples</span>
+                    <p>The capital of Odisha, showcasing magnificent Kalinga architecture, including the towering Lingaraj Temple.</p>
+                    <a href="places.html" target="_blank" class="details-link">
+                        View <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </section>
+        </div>
+
+    </main> 
+
+    <header>
+        <h1>The Grand Cultural Odyssey</h1>
+        <p>A Journey Through Heritage, Spirituality, and Architecture</p>
+    </header>
+    
+    <div class="container">
+        <div class="city-section">
+            <h2>Jaipur - The Pink City 🏰</h2>
+            <div class="city-info">
+                <div><strong>Duration:</strong> 3 Days <span>(Heritage & Royalty)</span></div>
+                <div><strong>Mode:</strong> Road/Train to Agra</div>
+            </div>
+            <ul class="itinerary-list">
+                <li>
+                    <strong>Day 1: Arrival & Local Culture</strong>
+                    Arrive in Jaipur. Check into your hotel. Evening - Visit **Albert Hall Museum** and experience a traditional Rajasthani dinner at **Chokhi Dhani**.
+                </li>
+                <li>
+                    <strong>Day 2: Forts & Palaces</strong>
+                    Morning - Excursion to **Amber Fort** (Enjoy a Jeep ride to the top). Afternoon - Photo stop at **Jal Mahal**, then visit the **Hawa Mahal** and **City Palace**.
+                </li>
+                <li>
+                    <strong>Day 3: History & Travel</strong>
+                    Morning - Explore the intricate **Jantar Mantar** (Astronomical Observatory) and visit **Nahargarh Fort** for a panoramic city view. Late Afternoon - Drive/Take a train to Agra.
+                </li>
+            </ul>
+        </div>
+
+        <div class="city-section">
+            <h2>Agra - City of the Taj 🤍</h2>
+            <div class="city-info">
+                <div><strong>Duration:</strong> 2 Days <span>(Mughal Architecture)</span></div>
+                <div><strong>Mode:</strong> Train/Flight to Khajuraho</div>
+            </div>
+            <ul class="itinerary-list">
+                <li>
+                    <strong>Day 1: The Monument of Love</strong>
+                    Early Morning - Visit the **Taj Mahal** at sunrise (for the best light and to avoid crowds). Afternoon - Explore the vast **Agra Fort**. Evening - Sunset view of the Taj from **Mehtab Bagh**.
+                </li>
+                <li>
+                    <strong>Day 2: Abandoned Capital & Journey</strong>
+                    Morning - Visit **Fatehpur Sikri**, the stunning abandoned Mughal capital (often visited en-route from Jaipur, but a dedicated morning trip is recommended). Day Travel - Proceed to Khajuraho.
+                </li>
+            </ul>
+        </div>
+
+        <div class="city-section">
+            <h2>Khajuraho - Temples of Art 🕉️</h2>
+            <div class="city-info">
+                <div><strong>Duration:</strong> 2 Days <span>(Ancient Sculptures)</span></div>
+                <div><strong>Mode:</strong> Flight to Bhubaneshwar</div>
+            </div>
+            <ul class="itinerary-list">
+                <li>
+                    <strong>Day 1: Arrival & Light Show</strong>
+                    Arrive in Khajuraho. Check-in. Evening - Attend the captivating **Sound and Light Show** at the Western Group of Temples, showcasing the temples' history.
+                </li>
+                <li>
+                    <strong>Day 2: Temple Exploration</strong>
+                    Morning - Detailed tour of the **Western Group of Temples** (Most famous for their detailed carvings). Afternoon - Visit the **Eastern** and **Southern Group of Temples** (Jain and Hindu temples).
+                </li>
+            </ul>
+        </div>
+        
+        <div class="city-section">
+            <h2>Bhubaneshwar - Temple City 🧡</h2>
+            <div class="city-info">
+                <div><strong>Duration:</strong> 3 Days <span>(Kalinga Architecture)</span></div>
+                <div><strong>Mode:</strong> Flight/Train to Rishikesh area (Dehradun/Delhi)</div>
+            </div>
+            <ul class="itinerary-list">
+                <li>
+                    <strong>Day 1: Arrival & City Temples</strong>
+                    Arrive in Bhubaneshwar (Flight recommended). Check-in. Evening - Visit the **Bindu Sagar Lake** and surrounding local temples like the **Lingaraj Temple** (view from the designated platform for non-Hindus).
+                </li>
+                <li>
+                    <strong>Day 2: Caves & Sculpture</strong>
+                    Morning - Visit the famous trio: **Raja Rani Temple**, **Mukteshwar Temple**, and **Parasurameswara Temple**. Afternoon - Explore the ancient Jain rock-cut shelters at **Udayagiri & Khandagiri Caves**.
+                </li>
+                <li>
+                    <strong>Day 3: Coastal Excursion</strong>
+                    Full Day Trip - Travel to **Puri** to see the **Jagannath Temple** (view from library roof) and then to **Konark** for the spectacular **Sun Temple** (UNESCO World Heritage Site).
+                </li>
+            </ul>
+        </div>
+
+        <div class="city-section">
+            <h2>Rishikesh - Yoga Capital 🧘</h2>
+            <div class="city-info">
+                <div><strong>Duration:</strong> 3 Days <span>(Adventure & Spirituality)</span></div>
+                <div><strong>Mode:</strong> Flight to Kathmandu (via Delhi/connecting city)</div>
+            </div>
+            <ul class="itinerary-list">
+                <li>
+                    <strong>Day 1: Arrival & Ganga Aarti</strong>
+                    Arrive in Rishikesh (Nearest airport: Dehradun). Check-in to an ashram or hotel. Evening - Witness the mesmerizing **Ganga Aarti** at **Parmarth Niketan** or **Triveni Ghat**.
+                </li>
+                <li>
+                    <strong>Day 2: Bridges & Beatles</strong>
+                    Morning - Attend an introductory **Yoga/Meditation** class. Explore the iconic suspension bridges: **Laxman Jhula** and **Ram Jhula**. Visit **The Beatles Ashram** (Chaurasi Kutia).
+                </li>
+                <li>
+                    <strong>Day 3: Adventure & Nature</strong>
+                    Adventure Activity: Go for **River Rafting** on the Ganges (seasonal) or a hike to a local spot like **Neer Garh Waterfall**. Enjoy the local cafés and bookstores in the evening.
+                </li>
+            </ul>
+        </div>
+        
+        <div class="city-section">
+            <h2>Nepal - Himalayan Serenity 🏔️</h2>
+            <div class="city-info">
+                <div><strong>Duration:</strong> 5 Days <span>(Culture & Mountains)</span></div>
+                <div><strong>Mode:</strong> Flight to Kathmandu (TIA) & Departure</div>
+            </div>
+            <ul class="itinerary-list">
+                <li>
+                    <strong>Day 1: Arrival in Kathmandu</strong>
+                    Fly from India to **Kathmandu** (TIA). Check-in. Evening - Visit **Boudhanath Stupa**, one of the largest spherical stupas in Nepal, for a peaceful evening walk.
+                </li>
+                <li>
+                    <strong>Day 2: Kathmandu Heritage</strong>
+                    Morning - Visit **Pashupatinath Temple** (Holist Hindu Shrine). Afternoon - Explore **Swayambhunath** (Monkey Temple) for panoramic city views. Enjoy dinner in the vibrant **Thamel** area.
+                </li>
+                <li>
+                    <strong>Day 3: Travel to Pokhara</strong>
+                    Morning - Travel from Kathmandu to **Pokhara** (Take a scenic flight or a comfortable tourist bus). Evening - Relax by **Phewa Lake** and enjoy the Lakeside ambiance.
+                </li>
+                <li>
+                    <strong>Day 4: Pokhara Nature</strong>
+                    Early Morning - Drive to **Sarangkot** for a spectacular **Himalayan Sunrise View** over the Annapurna range. Afternoon - Boating on **Phewa Lake** and visit the **Tal Barahi Temple** in the middle of the lake.
+                </li>
+                <li>
+                    <strong>Day 5: Departure</strong>
+                    Travel from Pokhara back to Kathmandu (Flight recommended). Depart from **Kathmandu** (TIA) for your onward journey.
+                </li>
+            </ul>
+        </div>
+
+        <div class="note">
+            <p><strong>Travel Note:</strong> This itinerary is extensive, spanning multiple regions. **Flights or overnight trains** are highly recommended for inter-city travel (especially between Agra-Khajuraho, Khajuraho-Bhubaneshwar, and Bhubaneshwar-Rishikesh/Dehradun) to conserve time and energy. Nepal requires a separate flight and visa. The total duration is approximately **18 days**.</p>
+        </div>
+    </div>
+
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-section links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="{{ url_for('home_page') }}">Home</a></li>
+                    <li><a href="{{ url_for('discover_page') }}">Discover</a></li>
+                    <li><a href="places.html">places</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="login.html">feedback</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h3>Get in Touch</h3>
+                <p><h2>hey, It's me Anshika🫶-— and I’m so happy you’re here!</h2>
+                <p><i class="fas fa-envelope"></i> anshikasrivastava1105@gmail.com
+            </div>
+
+            <div class="footer-section social">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="current-year"></span> Odyssey To... All rights reserved.<a href="#">Privacy Policy</a></p>
+        </div>
+    </footer>
+    
+<script>
+    // Footer year update script
+    document.addEventListener('DOMContentLoaded', () => {
+        const currentYearSpan = document.getElementById('current-year');
+        if (currentYearSpan) {
+            currentYearSpan.textContent = new Date().getFullYear();
+        }
+    });
+</script>
+    </body>   
+</html>

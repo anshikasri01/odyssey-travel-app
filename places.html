@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Odyssey | Places</title>
+        
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head> 
+    <body>
+        
+    <header>
+    <nav class="navbar">                    
+        <ul class="links-container">
+            <li class="link-item"><a href="{{ url_for('home_page') }}">Home</a></li>
+            <li class="link-item"><a href="{{ url_for('discover_page') }}">Discover</a></li>
+            
+            <li class="link-item"><a href="{{ url_for('places_page') }}"><img src="{{ url_for('static', filename='location.png') }}" class="logo" alt="Location Icon"></a></li>
+            
+            <li class="link-item"><a href="about.html">About</a></li>
+            <li class="link-item"><a href="login.html">Share your feedback</a></li>
+        </ul>
+    </nav>
+    </header>
+    <header class="page-header" style="background-image: url('https://i.pinimg.com/1200x/03/2e/e8/032ee84000e3e84a2273c32b3bc013a2.jpg');">
+        <div class="header-overlay">
+            <h1>The World We Explored Together</h1>
+            <p>A collection of moments that define beauty, history, and adventure.</p>
+            <a href="{{ url_for('discover_page') }}" class="back-button">← Return to Discoveries</a>
+        </div>
+    </header>
+
+    <main class="content-wrapper" >
+        
+        <section class="city-block jaipur-block">
+            <h2 class="city-title">Jaipur, The Pink City <span>| Rajasthan</span></h2>
+            <div class="photo-experience-grid">
+                <div class="photo-area">
+                    <figure class="photo-figure wide">
+                        <img src="https://i.pinimg.com/736x/0a/03/7b/0a037b59eda4aa84841b5608d02db5ca.jpg" alt="Hawa Mahal Jaipur">
+                        <figcaption>Hawa Mahal: The Palace of Winds.</figcaption>
+                    </figure>
+                    <figure class="photo-figure small">
+                        <img src="https://i.pinimg.com/1200x/76/4d/94/764d9446145f1dcf83a40491e25b7dee.jpg" alt="Amer Fort Jaipur">
+                        <figcaption>Amer Fort's Royal Courtyard.</figcaption>
+                    </figure>
+                    <figure class="photo-figure small">
+                        <img src="https://i.pinimg.com/736x/24/f8/d8/24f8d8dc4e582eadd469e1433c266cec.jpg" alt="Jaipur">
+                    </figure>
+                </div>
+                <div class="experience-area highlight-box">
+                    <p class="tagline">The Royal Charm</p>
+                    <p class="experience-text">
+                        <strong>about:</strong> Jaipur's pink hues immediately transport you to a royal era. Walking through Amer Fort, I felt the weight of history and grandeur. The bustling markets (bazaars) were a vibrant explosion of colors and sounds, a perfect blend of the past and the present.
+                        <br><br>
+                        <strong>Beauty:</strong> The city's beauty lies in its architectural consistency—the planned layouts, the intricate lattice work (jharokhas) on the Hawa Mahal, and the hilltop forts that offer breathtaking panoramic views of the entire valley.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="city-block agra-block reverse">
+            <h2 class="city-title">Agra, Uttar Pradesh <span>| Monument of Love</span></h2>
+            <div class="photo-experience-grid">
+                <div class="photo-area">
+                    <figure class="photo-figure wide">
+                        <img src="https://i.pinimg.com/736x/83/e5/44/83e544c6284477537e910926de329659.jpg" alt="Taj Mahal">
+                        <figcaption>The timeless beauty of the Taj Mahal.</figcaption>
+                    </figure>
+                    <figure class="photo-figure small">
+                        <img src="https://i.pinimg.com/736x/d8/b1/ab/d8b1ab8aae5ffaf62ec6f61f1e50d0de.jpg" alt=" Fort">
+                        <figcaption>Fort walls.</figcaption>
+                    </figure>
+                    <figure class="photo-figure small">
+                        <img src="https://i.pinimg.com/1200x/13/e6/8d/13e68dd51a1cea3959498b66162b3db1.jpg" alt="Agra Fort">
+                        <figcaption>Mighty Red Fort walls.</figcaption>
+                    </figure>
+                </div>
+                <div class="experience-area highlight-box">
+                    <p class="tagline">An Eternal Romance</p>
+                    <p class="experience-text">
+                        <strong>about:</strong> Visiting the Taj at dawn was a mesmerizing, almost spiritual event. The marble changing its colour from soft grey to glowing white as the sun rose is unforgettable. It truly silenced my mind and filled me with awe for Shah Jahan's devotion.
+                        <br><br>
+                        <strong>Beauty:</strong> Its beauty is in the perfect symmetry, the delicate *Pietra Dura* (inlay work), and the surrounding garden. It stands as the ultimate symbol of architectural perfection and the world's most beautiful monument to love.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="city-block nepal-block">
+            <h2 class="city-title">Nepal <span>| Himalayan Spirit</span></h2>
+            <div class="photo-experience-grid">
+                <div class="photo-area">
+                    <figure class="photo-figure wide">
+                        <img src="https://i.pinimg.com/1200x/87/0d/e9/870de965417fd9c2d5d8e18378ee4703.jpg" alt="Himalayas view from Nepal">
+                        <figcaption>Annapurna Range peaking through the clouds.</figcaption>
+                    </figure>
+                    <figure class="photo-figure small">
+                        <img src="https://i.pinimg.com/736x/44/a2/80/44a28061008c72849c8dae6b42815a1b.jpg" alt="Patan Durbar Square">
+                        <figcaption>Ancient artistry at Patan Durbar Square.</figcaption>
+                    </figure>
+                    <figure class="photo-figure small">
+                        <img src="https://i.pinimg.com/1200x/02/1b/ff/021bff44798638c0e0ce78b5aea86c0f.jpg">
+                    </figure>
+                </div>
+                <div class="experience-area highlight-box">
+                    <p class="tagline">Peace and Peaks</p>
+                    <p class="experience-text">
+                        <strong>about:</strong> The air in Nepal feels different—cleaner, and filled with the scent of incense and prayer flags. Trekking to see the mountains was deeply humbling. The kindness of the people and the mix of Hindu and Buddhist cultures were captivating.
+                        <br><br>
+                        <strong>Beauty:</strong> Nepal's beauty is twofold: the unmatched, majestic grandeur of the snow-capped Himalayas, and the exquisite, wood-carved temples and pagodas of the Kathmandu Valley, remnants of a glorious past.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="city-block rishikesh-block reverse">
+            <h2 class="city-title">Rishikesh <span>| Yoga Capital of the World</span></h2>
+            <div class="photo-experience-grid">
+                <div class="photo-area">
+                    <figure class="photo-figure wide">
+                        <img src="https://i.pinimg.com/736x/82/91/5f/82915fddb9cfb9095c9ce9716ebc9802.jpg" alt="Ganga River Rishikesh">
+                        <figcaption>The holy Ganga flowing through the city.</figcaption>
+                    </figure>
+                    <figure class="photo-figure small">
+                        <img src="https://i.pinimg.com/1200x/9f/16/a0/9f16a058760c7ee08030905963b9cabc.jpg" alt="Lakshman Jhula">
+                        <figcaption>Iconic Lakshman Jhula bridge.</figcaption>
+                    </figure>
+                    <figure class="photo-figure small">
+                        <img src="https://i.pinimg.com/736x/ff/55/79/ff5579b18a204b823f7844dfc598d1cc.jpg">
+                    </figure>
+                </div>
+                <div class="experience-area highlight-box">
+                    <p class="tagline">Spiritual Adventure</p>
+                    <p class="experience-text">
+                        <strong>about:</strong> Rishikesh offers a unique duality—the thrill of white-water rafting and the deep calm of meditation by the Ganga. Attending the evening Aarti was a powerful, sensory experience, with the lamps floating down the river creating magic.
+                        <br><br>
+                        <strong>Beauty:</strong> The natural beauty is stunning: lush green mountains meeting the vibrant, clear blue-green water of the river. The energy is palpably spiritual, making it a truly rejuvenating destination for the mind and soul.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="city-block bhubaneshwar-block">
+            <h2 class="city-title">Bhubaneshwar <span>| Temple City of India</span></h2>
+            <div class="photo-experience-grid">
+                <div class="photo-area">
+                    <figure class="photo-figure wide">
+                        <img src="https://i.pinimg.com/736x/2e/25/b3/2e25b3f3fd4fa84f0631549454af3943.jpg" alt="Lingaraj Temple">
+                        <figcaption>The towering spire of Lingaraj Temple.</figcaption>
+                    </figure>
+                    <figure class="photo-figure small">
+                        <img src="https://i.pinimg.com/736x/ad/27/84/ad2784a631fdd8dcc1bfeeaa2ca95446.jpg" alt="Udayagiri Caves">
+                        <figcaption>Ancient history captured in Udayagiri Caves.</figcaption>
+                    </figure>
+                    <figure class="photo-figure small">
+                        <img src="https://i.pinimg.com/1200x/8f/68/50/8f685074a2f22558e91614e9b2c3c9ff.jpg">
+                    </figure>
+                </div>
+                <div class="experience-area highlight-box">
+                    <p class="tagline">Kalinga Architecture</p>
+                    <p class="experience-text">
+                        <strong>about:</strong> Exploring Bhubaneshwar felt like walking through a living history book of Kalinga art and architecture. The sheer density of historical temples, each telling a story through its intricate carvings, was awe-inspiring.
+                        <br><br>
+                        <strong>Beauty:</strong> The beauty lies in the detailed mastery of the sandstone carvings, particularly the delicate human and celestial figures. It’s a showcase of ancient architectural excellence and devotion, perfectly preserved.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="city-block khajuraho-block reverse">
+            <h2 class="city-title">Khajuraho <span>| Artistic Marvel</span></h2>
+            <div class="photo-experience-grid">
+                <div class="photo-area">
+                    <figure class="photo-figure wide">
+                        <img src="https://i.pinimg.com/736x/b4/ac/a1/b4aca13724712751b6f16b7c860be47b.jpg" alt="Khajuraho Western Group">
+                        <figcaption>The magnificent Kandariya Mahadeva Temple.</figcaption>
+                    </figure>
+                    <figure class="photo-figure small">
+                        <img src="https://i.pinimg.com/736x/c4/6c/a6/c46ca68a556944b031e0eda242c96bd7.jpg" alt="Detailed temple carving">
+                        <figcaption>A close look at the vibrant life depicted in stone.</figcaption>
+                    </figure>
+                    <figure class="photo-figure small">
+                        <img src="https://i.pinimg.com/736x/a9/98/5a/a9985a669acaa8b04b388980598139f6.jpg">
+                    </figure>
+                </div>
+                <div class="experience-area highlight-box">
+                    <p class="tagline">Sculpted Stories</p>
+                    <p class="experience-text">
+                        <strong>about:</strong> Khajuraho is a profound and moving experience. It is much more than the famous carvings; it is a celebration of life, spirituality, and art. The silence and the sheer scale of the achievement by the Chandela dynasty are humbling.
+                        <br><br>
+                        <strong>Beauty:</strong> The beauty is in the flow and dynamism of the sculptures, which seem to leap from the stone. These temples represent a complete picture of human life and culture from the 10th century, a truly unique artistic legacy.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-section links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="{{ url_for('home_page') }}">Home</a></li>
+                    <li><a href="{{ url_for('discover_page') }}">Discover</a></li>
+                    <li><a href="{{ url_for('places_page') }}">places</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="login.html">feedback</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section contact">
+                <h3>Get in Touch</h3>
+                <p><h2>hey, It's me Anshika🫶-— and I’m so happy you’re here!</h2>
+                <p><i class="fas fa-envelope"></i> anshikasrivastava1105@gmail.com
+            </div>
+
+            <div class="footer-section social">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; <span id="current-year"></span>  Odyssey To... All rights reserved.<a href="#">Privacy Policy</a></p>
+        </div>
+    </footer>
+
+<script>
+    // Footer year update script
+    document.addEventListener('DOMContentLoaded', () => {
+        const currentYearSpan = document.getElementById('current-year');
+        if (currentYearSpan) {
+            currentYearSpan.textContent = new Date().getFullYear();
+        }
+    });
+</script>
+    </body>  
+</html>

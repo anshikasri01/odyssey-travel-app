@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Odyssey | About Us</title>
+        
+        <!-- FIX 1: CSS Link Updated for Flask -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head> 
+    <body>
+        <!--navbar-->
+        <header>
+            <nav class="navbar">                    
+                <ul class="links-container">
+                    <!-- FIX 2: Internal Links Updated for Flask Routing -->
+                    <li class="link-item"><a href="{{ url_for('home_page') }}">Home</a></li>
+                    <li class="link-item"><a href="{{ url_for('discover_page') }}">Discover</a></li>
+                    
+                    <!-- FIX 3: Logo Image Link Updated for Flask Static -->
+                    <li class="link-item"><a href="{{ url_for('places_page') }}"><img src="{{ url_for('static', filename='location.png') }}" class="logo" alt="Location Icon"></a></li>
+                    
+                    <li class="link-item"><a href="{{ url_for('about_page') }}">About</a></li>
+                    <li class="link-item"><a href="{{ url_for('login_page') }}">Share your feedback</a></li>
+                </ul>
+            </nav>
+        </header>
+        <!--navbar-->
+        
+        <!---about-->
+        <div class="wrapper">
+            <div class="row">
+                <div class="img-sec">
+                    <!-- FIX 4: Image Link Updated for Flask Static -->
+                    <img src="{{ url_for('static', filename='me.jpg') }}" alt="Anshika's Profile Image">
+                </div>
+                <div class="cont">
+                    <h1>WHY TRAVEL WITH US</h1>
+                    <h2>About Us</h2>
+                    <h4>Welcome to Odyssey<br>Hi, It's me Anshika🫶-— and I’m so happy you’re here!</h4>
+                    <p>I started Odyssey to share real travel experiences, tips, and suggestions—not from my own trips, but through the journeys my **Friend** has taken. He explores different places and shares everything with me, and through this page, I bring those stories, insights, and advice to you in a helpful and simple way.</p>
+                    <br><p>Even if I haven't visited these places myself, I make sure every detail I share is based on real experience and useful guidance.</p>
+                    <br>          
+                    <h1>Why "Odyssey"?</h1>
+                    <h2>The Meaning Behind the Name</h2>
+                    <p>An Odyssey is more than just a trip; it's a long, adventurous journey full of exciting experiences, lessons, and discoveries. Since this page shares my friend's vast and varied travels—the kind of journeys that shape your perspective and tell an incredible story—the name just fit. Every post here is a small part of that grand Odyssey, and I'm happy to be the one sharing it with you.</p>
+                    <br><p>So, come along for the ride! Whether you're planning your next big adventure or just looking for some armchair travel inspiration, Odyssey is your spot for reliable, friend-sourced advice. Let's explore the world, one journey at a time.</p>
+                    <br>
+                    <h1>Why Travel with Us</h1>
+                    <p>👉**100% Real-World Tested:** Everything shared on this page comes directly from the boots-on-the-ground experiences of a dedicated traveler—my friend. You get authentic, tried-and-true advice from someone who was just there.
+
+                    <br>👉**Double-Checked, Simple Guidance:** I act as your editor and filter. My friend shares the detailed journey, and I make sure it’s presented to you in the most simple, helpful, and organized way possible. You get the valuable knowledge without the confusing clutter.
+
+                    <br>👉**Your Trusted Travel Friend:** Think of me (Anshika) as your friendly, reliable connection to the world. You’re not just reading a random blog; you’re getting trusted recommendations from a friend of a friend!
+                    </p>
+                    <br><p>So, come along for the ride! Whether you're planning your next big adventure or just looking for some armchair travel inspiration, Odyssey is your spot for reliable, friend-sourced advice. Let's explore the world, one journey at a time🫶.</p>   
+
+                </div>
+            </div>
+        </div>
+        
+        <!----footer----->
+        <footer class="site-footer">
+            <div class="footer-container">
+                <div class="footer-section links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <!-- FIX 5: Footer Links Updated -->
+                        <li><a href="{{ url_for('home_page') }}">Home</a></li>
+                        <li><a href="{{ url_for('discover_page') }}">Discover</a></li>
+                        <li><a href="{{ url_for('places_page') }}">places</a></li>
+                        <li><a href="{{ url_for('about_page') }}">About</a></li>
+                        <li><a href="{{ url_for('login_page') }}">feedback</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section contact">
+                    <h3>Get in Touch</h3>
+                    <p><h2>hey, It's me Anshika🫶-— and I’m so happy you’re here!</h2>
+                    <p><i class="fas fa-envelope"></i> anshikasrivastava1105@gmail.com
+                </div>
+
+                <div class="footer-section social">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span>  Odyssey To... All rights reserved.<a href="#">Privacy Policy</a></p>
+            </div>
+        </footer>
+
+        <!----footer end----->
+        
+        <script>
+            
+            document.addEventListener('DOMContentLoaded', () => {
+                const currentYearSpan = document.getElementById('current-year');
+                if (currentYearSpan) {
+                    currentYearSpan.textContent = new Date().getFullYear();
+                }
+            });
+        </script>
+    </body>  
+</html>
