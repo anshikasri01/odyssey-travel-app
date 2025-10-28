@@ -1340,3 +1340,62 @@ body.modal-open {
     overflow: hidden;
 }
 
+/* --- 
+   CSS Media Query: Yeh code tabhi apply hoga jab screen ki width 600px ya usse kam ho.
+--- */
+@media (max-width: 600px) {
+
+    /* 1. Body/Root Font Size: Mobile par readability ke liye font size badhayein */
+    body {
+        font-size: 16px; 
+    }
+
+    /* 2. Navigation Bar (Agar Toot Rahi Ho) */
+    .navbar {
+        flex-direction: column; /* Items ko upar-neeche kar dein */
+        align-items: center; /* beech mein le aayein */
+        padding: 10px 0;
+    }
+    .nav-links {
+        margin-top: 10px;
+        flex-direction: column; /* Links ko bhi upar-neeche kar dein */
+    }
+    .nav-links li {
+        margin: 5px 0;
+    }
+
+    /* 3. Tours Section ka Layout Theek Karna (Agar Grid/Flexbox Use Kiya Hai) */
+    /* Apne main tours container ke class ka naam use karein (e.g., .tour-list, .tours-grid) */
+    .tour-list, .tours-grid {
+        display: block !important; /* Grid ya Flexbox ko block (single column) mein badlein */
+        width: 100%;
+        padding: 0 10px; /* Sides par halki padding dein */
+    }
+    
+    /* 4. Photos aur Items ki Width Theek Karna */
+    /* Har ek tour item ko poori width dein */
+    .tour-item {
+        width: 95% !important; 
+        margin: 15px auto; /* Item ke neeche thoda space aur center mein le aayein */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Photos ko poori width dein */
+    .tour-item img {
+        width: 100%; /* Photo poori jagah legi */
+        height: auto; /* Height apne aap adjust hogi */
+    }
+
+    /* 5. Hero/Main Content Padding Kam Karein */
+    .hero-section, .main-content {
+        padding: 40px 10px; /* Badi padding ko chota karein */
+    }
+
+    /* 6. H1, H2 (Headings) ko chota karein */
+    h1 {
+        font-size: 2em; /* thoda chota */
+    }
+    h2 {
+        font-size: 1.5em; /* thoda chota */
+    }
+}
