@@ -23,8 +23,7 @@ class Feedback(db.Model):
     def __repr__(self):
         return f"Feedback('{self.rating}', '{self.name}', '{self.date_posted}')"
 
-with app.app_context():
-    db.create_all()
+
 
 # --- 3. API ENDPOINT FOR TOUR DATA (Home Page) ---
 @app.route('/api/tours', methods=['GET'])
@@ -121,7 +120,3 @@ def login_page():
 
 # --- 6. RUN THE APP ---
 
-if __name__ == '__main__':
-    from waitress import serve
-    
-    serve(app, host='0.0.0.0', port=5000)
